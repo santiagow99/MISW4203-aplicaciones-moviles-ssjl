@@ -1,0 +1,36 @@
+name: Validate Pull Request
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Validate branch name
+        run: |
+          if [[ ${{ github.event.pull_request.head.ref }} != feature/* ]]; then
+            echo "Error: La rama del pull request no cumple con el formato 'feature/*'."
+            exit 1
+          fi
+
+      - name: Run end-to-end tests
+        run: |
+          # Comandos para ejecutar pruebas
+
+      - name: Build project
+        run: |
+          ./gradlew build
+
+      - name: Generate APK
+        run: |
+          # Comandos para generar el APK
+          apk_name="app_${{ github.event.pull_request.head.ref }}.apk"
+          ./gradlew assembleDebug
+          mv app/build/outputs/apk/app-debug.apk build/$apk_name
