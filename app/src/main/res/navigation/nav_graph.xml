@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/albumFragment"
         android:name="com.example.vinyls_jetpack_application.ui.AlbumFragment"
-        android:label="album_fragment"
+        android:label="Catalogo de álbumes"
         tools:layout="@layout/album_fragment" >
     </fragment>
 </navigation>
