@@ -33,6 +33,4 @@ jobs:
       - name: Generate APK
         run: |
           # Comandos para generar el APK
-          apk_name="app_${{ github.event.pull_request.head.ref }}.apk"
           ./gradlew assembleDebug
-          mv app/build/outputs/apk/debug/app-debug.apk build/$apk_name

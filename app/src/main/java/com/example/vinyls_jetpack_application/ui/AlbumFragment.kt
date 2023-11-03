@@ -1,9 +1,12 @@
 package com.example.vinyls_jetpack_application.ui
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -18,6 +21,7 @@ import com.example.vinyls_jetpack_application.viewmodels.AlbumViewModel
 import com.bumptech.glide.Glide
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.PagerSnapHelper
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
@@ -27,6 +31,7 @@ class AlbumFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: AlbumViewModel
     private var viewModelAdapter: AlbumsAdapter? = null
+    private lateinit var searchEditText: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,9 +44,18 @@ class AlbumFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recyclerView = binding.albumsRv
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView = view.findViewById(R.id.albumCarouselRv)
+
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = layoutManager
+
+        val pagerSnapHelper = PagerSnapHelper()
+        pagerSnapHelper.attachToRecyclerView(recyclerView)
+
         recyclerView.adapter = viewModelAdapter
+
+        searchEditText = view.findViewById(R.id.searchEditText)
+        setupSearchListener()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -54,24 +68,12 @@ class AlbumFragment : Fragment() {
 
         viewModel.albums.observe(viewLifecycleOwner, Observer<List<Album>> { albums ->
             viewModelAdapter?.albums = albums
-
-            // Load album cover images using Glide for each album
-            albums.forEach { album ->
-                val albumCoverImageView = view?.findViewById<ImageView>(R.id.albumCoverImageView)
-                if (albumCoverImageView != null) {
-                    Glide.with(requireContext())
-                        .load(album.cover) // Assuming 'album.cover' is the URL to the image
-                        .into(albumCoverImageView)
-                }
-            }
         })
 
         viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
             if (isNetworkError) onNetworkError()
         })
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -83,5 +85,18 @@ class AlbumFragment : Fragment() {
             Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
             viewModel.onNetworkErrorShown()
         }
+    }
+
+    private fun setupSearchListener() {
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(editable: Editable?) {
+                val query = editable.toString()
+                viewModel.filterAlbumsByName(query)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
     }
 }
