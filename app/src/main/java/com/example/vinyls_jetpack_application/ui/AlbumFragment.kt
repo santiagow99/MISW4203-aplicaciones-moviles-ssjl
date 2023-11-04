@@ -58,6 +58,7 @@ class AlbumFragment : Fragment() {
         setupSearchListener()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val activity = requireNotNull(this.activity) {
