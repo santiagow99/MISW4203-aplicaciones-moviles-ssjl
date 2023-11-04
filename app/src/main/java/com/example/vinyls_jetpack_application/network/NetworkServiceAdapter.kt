@@ -61,18 +61,13 @@ class NetworkServiceAdapter constructor(context: Context) {
                 Log.d("", it.message.toString())
             }))
     }
-    fun getAlbum(albumId:Int, onComplete:(resp:List<Album>)->Unit, onError: (error:VolleyError)->Unit) {
+    fun getAlbum(albumId:Int, onComplete:(resp:Album)->Unit, onError: (error:VolleyError)->Unit) {
         requestQueue.add(getRequest("albums/$albumId",
             Response.Listener<String> { response ->
-                val resp = JSONArray(response)
-                val list = mutableListOf<Album>()
-                var item:JSONObject? = null
-                for (i in 0 until resp.length()) {
-                    item = resp.getJSONObject(i)
-                    Log.d("Response", item.toString())
-                    list.add(i, Album(albumId = item.getInt("id"),name = item.getString("name"), cover = item.getString("cover"), recordLabel = item.getString("recordLabel"), releaseDate = item.getString("releaseDate"), genre = item.getString("genre"), description = item.getString("description")))
-                }
-                onComplete(list)
+                val resp = JSONObject(response)
+                Log.d("Response", resp.toString())
+                val album=Album(albumId = resp.getInt("id"),name = resp.getString("name"), cover = resp.getString("cover"), recordLabel = resp.getString("recordLabel"), releaseDate = resp.getString("releaseDate"), genre = resp.getString("genre"), description = resp.getString("description"))
+                onComplete(album)
             },
             Response.ErrorListener {
                 onError(it)

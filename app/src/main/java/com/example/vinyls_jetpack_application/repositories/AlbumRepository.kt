@@ -15,4 +15,8 @@ class AlbumRepository (val application: Application){
             onError
         )
     }
+
+    fun getAlbumById(albumId: Int, callback: (Album) -> Unit, onError: (VolleyError) -> Unit) {
+        NetworkServiceAdapter.getInstance(application).getAlbum(albumId, {callback(it)}, onError)
+    }
 }
