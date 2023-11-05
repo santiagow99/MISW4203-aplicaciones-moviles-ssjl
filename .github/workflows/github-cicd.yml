@@ -13,7 +13,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu' # Puedes cambiar la distribución según tus necesidades
+          java-version: 17
 
       - name: Validate branch name
         run: |
@@ -28,9 +34,10 @@ jobs:
 
       - name: Build project
         run: |
-          ./gradlew build
+          ./gradlew build --warning-mode all
 
       - name: Generate APK
         run: |
           # Comandos para generar el APK
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --warning-mode all
+

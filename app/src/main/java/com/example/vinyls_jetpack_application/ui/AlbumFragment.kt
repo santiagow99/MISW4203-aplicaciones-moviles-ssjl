@@ -9,18 +9,13 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vinyls_jetpack_application.R
 import com.example.vinyls_jetpack_application.databinding.AlbumFragmentBinding
-import com.example.vinyls_jetpack_application.models.Album
 import com.example.vinyls_jetpack_application.ui.adapters.AlbumsAdapter
 import com.example.vinyls_jetpack_application.viewmodels.AlbumViewModel
-import com.bumptech.glide.Glide
-import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.PagerSnapHelper
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -36,7 +31,7 @@ class AlbumFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = AlbumFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
         viewModelAdapter = AlbumsAdapter()
@@ -58,21 +53,22 @@ class AlbumFragment : Fragment() {
         setupSearchListener()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onActivityCreated()"
         }
         activity.actionBar?.title = getString(R.string.title_albums)
-        viewModel = ViewModelProvider(this, AlbumViewModel.Factory(activity.application)).get(AlbumViewModel::class.java)
+        viewModel = ViewModelProvider(this, AlbumViewModel.Factory(activity.application))[AlbumViewModel::class.java]
 
-        viewModel.albums.observe(viewLifecycleOwner, Observer<List<Album>> { albums ->
+        viewModel.albums.observe(viewLifecycleOwner) { albums ->
             viewModelAdapter?.albums = albums
-        })
+        }
 
-        viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
+        viewModel.eventNetworkError.observe(viewLifecycleOwner) { isNetworkError ->
             if (isNetworkError) onNetworkError()
-        })
+        }
     }
 
     override fun onDestroyView() {
