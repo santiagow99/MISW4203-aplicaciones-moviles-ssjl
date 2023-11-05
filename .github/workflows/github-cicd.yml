@@ -12,13 +12,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: 18.0.2.1
-
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu' # Puedes cambiar la distribución según tus necesidades
+          java-version: 17
 
       - name: Validate branch name
         run: |
