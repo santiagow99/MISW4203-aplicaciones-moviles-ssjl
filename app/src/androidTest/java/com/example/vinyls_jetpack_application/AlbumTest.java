@@ -23,7 +23,12 @@ public class AlbumTest {
 
     @Test
     public void testAllElements() {
-
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.titleTextView)).check(matches(isDisplayed()));
         onView(withId(R.id.searchEditText)).check(matches(isDisplayed()));
 
@@ -39,6 +44,12 @@ public class AlbumTest {
 
     @Test
     public void testCompareAlbums() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.albumCarouselRv)).check(matches(isDisplayed()));
         try {
             Thread.sleep(1000);
