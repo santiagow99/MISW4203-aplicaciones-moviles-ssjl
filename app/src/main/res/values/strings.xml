@@ -14,4 +14,12 @@
     <string name="collector_phone_placeholder">Número telefónico</string>
     <string name="album_cover_placeholder">Cover del album</string>
     <string name="title_albums">Albums</string>
+    <string name="title_detail_album">Información del album</string>
+    <string name="date_album">Fecha de lanzamiento</string>
+    <string name="add_comment">Añadir comentario</string>
+    <string name="genre">Género</string>
+    <string name="record_label">Sello discográfico</string>
+    <string name="description">Descripción</string>
+    <string name="tracks">Tracklist</string>
+    <string name="description_value">Buscando América es el primer álbum de la banda de Rubén Blades y Seis del Solar lanzado en 1984. La producción, bajo el sello Elektra, fusiona diferentes ritmos musicales tales como la salsa, reggae, rock, y el jazz latino. El disco fue grabado en Eurosound Studios en Nueva York entre mayo y agosto de 1983.</string>
 </resources>
