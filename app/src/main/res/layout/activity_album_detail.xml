@@ -6,13 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.AlbumDetailActivity"
     >
-
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_album_detail_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/albumDetailFragment"
-        android:name="com.example.vinyls_jetpack_application.ui.AlbumDetailFragment"
-        tools:layout="@layout/album_detail_item"
-    ></fragment>
+        android:layout_marginTop="64dp"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_album_detail"
+        tools:layout_editor_absoluteX="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
