@@ -12,16 +12,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vinyls_jetpack_application.R
 import com.example.vinyls_jetpack_application.databinding.AlbumFragmentBinding
 import com.example.vinyls_jetpack_application.models.Album
 import com.example.vinyls_jetpack_application.ui.adapters.AlbumsAdapter
 import com.example.vinyls_jetpack_application.viewmodels.AlbumViewModel
-import com.bumptech.glide.Glide
-import android.widget.ImageView
-import android.widget.LinearLayout
-import androidx.recyclerview.widget.PagerSnapHelper
+
+
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */

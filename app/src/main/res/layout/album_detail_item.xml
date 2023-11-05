@@ -22,7 +22,7 @@
             android:paddingHorizontal="5dp"
             android:orientation="horizontal">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 app:cardCornerRadius="40dp"
@@ -36,10 +36,10 @@
                     android:rotationX="0"
                     tools:srcCompat="@tools:sample/avatars"
                     android:contentDescription="@string/album_cover_placeholder"/>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
-                android:text="@string/title_albums"
+                android:text="@{albumDetail.name}"
                 android:layout_gravity="center_vertical"
                 android:textSize="20sp"
                 android:layout_margin="15dp"
@@ -50,7 +50,7 @@
                 android:layout_weight="1">
             </TextView>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 app:cardCornerRadius="50dp"
@@ -65,10 +65,10 @@
                     android:scaleType="fitCenter"
                     android:contentDescription="@string/add_comment"
                     />
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_margin="20dp"
             android:layout_height="wrap_content"
@@ -78,112 +78,124 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/gray"
                 android:orientation="vertical"
                 android:paddingHorizontal="15dp"
-                android:paddingVertical="15dp"
-                android:background="@color/gray">
+                android:paddingVertical="15dp">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
                     android:layout_marginBottom="15dp"
+                    android:text="@string/title_detail_album"
                     android:textColor="#000000"
-                    android:textStyle="bold"
-                    android:text="@string/title_detail_album" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="14sp"
+                        android:text="@string/date_album"
                         android:textColor="#CC000000"
-                        android:textStyle="bold"
-                        android:text="@string/date_album" />
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="14sp"
+                        android:text="@string/date_album"
                         android:textColor="#B3000000"
-                        android:text="@string/date_album" />
+                        android:textSize="14sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="14sp"
+                        android:text="@string/genre"
                         android:textColor="#CC000000"
-                        android:textStyle="bold"
-                        android:text="@string/genre" />
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="14sp"
+                        android:text="@string/genre"
                         android:textColor="#B3000000"
-                        android:text="@string/genre" />
+                        android:textSize="14sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="14sp"
+                        android:text="@string/record_label"
                         android:textColor="#CC000000"
-                        android:textStyle="bold"
-                        android:text="@string/record_label" />
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="14sp"
+                        android:text="@string/record_label"
                         android:textColor="#B3000000"
-                        android:text="@string/record_label" />
+                        android:textSize="14sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="15dp"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="#CC000000"
-                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
                         android:text="@string/description"
-                        android:layout_marginBottom="5dp"/>
+                        android:textColor="#CC000000"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
+                        android:text="@string/description_value"
                         android:textColor="#B3000000"
-                        android:text="@string/description_value" />
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_marginVertical="5dp"
             android:layout_marginHorizontal="20dp"
             android:layout_height="wrap_content"
             app:cardCornerRadius="15dp"
             app:cardElevation="0dp">
-            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -205,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="15dp">
-                    <androidx.cardview.widget.CardView
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         app:cardCornerRadius="40dp"
@@ -221,7 +233,7 @@
                             android:layout_gravity="center"
                             tools:srcCompat="@drawable/play_3917607"
                             android:contentDescription="@string/album_cover_placeholder"/>
-                    </androidx.cardview.widget.CardView>
+                    </com.google.android.material.card.MaterialCardView>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -252,7 +264,7 @@
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="15dp">
-                    <androidx.cardview.widget.CardView
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         app:cardCornerRadius="40dp"
@@ -268,7 +280,7 @@
                             android:layout_gravity="center"
                             tools:srcCompat="@drawable/play_3917607"
                             android:contentDescription="@string/album_cover_placeholder"/>
-                    </androidx.cardview.widget.CardView>
+                    </com.google.android.material.card.MaterialCardView>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -299,7 +311,7 @@
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="15dp">
-                    <androidx.cardview.widget.CardView
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         app:cardCornerRadius="40dp"
@@ -315,7 +327,7 @@
                             android:layout_gravity="center"
                             tools:srcCompat="@drawable/play_3917607"
                             android:contentDescription="@string/album_cover_placeholder"/>
-                    </androidx.cardview.widget.CardView>
+                    </com.google.android.material.card.MaterialCardView>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -342,6 +354,6 @@
 
                 </LinearLayout>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </layout>
