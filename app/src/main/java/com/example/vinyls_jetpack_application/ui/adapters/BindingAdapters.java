@@ -1,5 +1,4 @@
 package com.example.vinyls_jetpack_application.ui.adapters;
-import android.annotation.SuppressLint;
 import android.widget.ImageView;
 import androidx.databinding.BindingAdapter;
 import com.bumptech.glide.Glide;

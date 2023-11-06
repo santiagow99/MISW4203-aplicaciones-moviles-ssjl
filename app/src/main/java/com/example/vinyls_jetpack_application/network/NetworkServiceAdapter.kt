@@ -20,7 +20,7 @@ import org.json.JSONObject
 class NetworkServiceAdapter constructor(context: Context) {
     companion object{
         const val BASE_URL= "https://vynils-back-heroku.herokuapp.com/"
-        var instance: NetworkServiceAdapter? = null
+        private var instance: NetworkServiceAdapter? = null
         fun getInstance(context: Context) =
             instance ?: synchronized(this) {
                 instance ?: NetworkServiceAdapter(context).also {
@@ -35,7 +35,7 @@ class NetworkServiceAdapter constructor(context: Context) {
     fun getAlbums(onComplete:(resp:List<Album>)->Unit, onError: (error:VolleyError)->Unit){
         val gson = Gson()
         requestQueue.add(getRequest("albums",
-            Response.Listener<String> { response ->
+            { response ->
                 val resp = JSONArray(response)
                 val list = mutableListOf<Album>()
                 for (i in 0 until resp.length()) {
@@ -53,13 +53,13 @@ class NetworkServiceAdapter constructor(context: Context) {
                 }
                 onComplete(list)
             },
-            Response.ErrorListener {
+            {
                 onError(it)
             }))
     }
     fun getCollectors(onComplete:(resp:List<Collector>)->Unit, onError: (error:VolleyError)->Unit) {
         requestQueue.add(getRequest("collectors",
-            Response.Listener<String> { response ->
+            { response ->
                 Log.d("tagb", response)
                 val resp = JSONArray(response)
                 val list = mutableListOf<Collector>()
@@ -69,7 +69,7 @@ class NetworkServiceAdapter constructor(context: Context) {
                 }
                 onComplete(list)
             },
-            Response.ErrorListener {
+            {
                 onError(it)
                 Log.d("", it.message.toString())
             }))
@@ -101,7 +101,7 @@ class NetworkServiceAdapter constructor(context: Context) {
                 )
                 onComplete(album)
             },
-            Response.ErrorListener {
+            {
                 onError(it)
             }))
     }

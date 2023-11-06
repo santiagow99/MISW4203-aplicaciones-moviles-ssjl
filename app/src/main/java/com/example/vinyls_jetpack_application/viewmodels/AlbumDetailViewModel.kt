@@ -36,7 +36,7 @@ class AlbumDetailViewModel(application: Application, albumId: Int) : AndroidView
         _isNetworkErrorShown.value = true
     }
     class Factory(val app: Application, private var idAlbum: Int) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(AlbumDetailViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
                 return AlbumDetailViewModel(app, idAlbum) as T
