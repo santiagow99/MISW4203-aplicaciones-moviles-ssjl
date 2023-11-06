@@ -7,10 +7,11 @@ import android.widget.BaseAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vinyls_jetpack_application.databinding.AlbumDetailItemBinding
 import com.example.vinyls_jetpack_application.models.Album
+import com.example.vinyls_jetpack_application.models.AlbumDetail
 
 class AlbumDetailAdapter : BaseAdapter() {
 
-    var album: Album? = null
+    var album: AlbumDetail? = null
 
     override fun getCount(): Int {
         return 1 // Solo hay un elemento de detalle de álbum

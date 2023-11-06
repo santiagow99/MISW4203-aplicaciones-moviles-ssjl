@@ -6,7 +6,7 @@
     <data>
         <variable
             name="albumDetail"
-            type="com.example.vinyls_jetpack_application.models.Album" />
+            type="com.example.vinyls_jetpack_application.models.AlbumDetail" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,6 +35,7 @@
                     android:layout_height="wrap_content"
                     android:rotationX="0"
                     tools:srcCompat="@tools:sample/avatars"
+                    app:imageUrl="@{albumDetail.cover}"
                     android:contentDescription="@string/album_cover_placeholder"/>
             </com.google.android.material.card.MaterialCardView>
 
@@ -115,7 +116,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/date_album"
+                        android:text="@{albumDetail.releaseDate}"
                         android:textColor="#B3000000"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -139,7 +140,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/genre"
+                        android:text="@{albumDetail.genre}"
                         android:textColor="#B3000000"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -163,7 +164,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/record_label"
+                        android:text="@{albumDetail.recordLabel}"
                         android:textColor="#B3000000"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -187,181 +188,20 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/description_value"
+                        android:text="@{albumDetail.description}"
                         android:textColor="#B3000000"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tracksList"
             android:layout_width="match_parent"
-            android:layout_marginVertical="5dp"
-            android:layout_marginHorizontal="20dp"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="0dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:elevation="20dp"
-                android:shadowDy="20"
-                android:shadowDx="20"
-                android:shadowColor="@color/black"
-                android:background="@color/white"
-                android:orientation="vertical">
-                <TextView
-                    android:text="@string/tracks"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="18sp"
-                    android:layout_margin="15dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </TextView>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="15dp"
-                    android:paddingVertical="15dp">
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:cardCornerRadius="40dp"
-                        android:backgroundTint="#FF9800"
-                        tools:ignore="MissingConstraints"
-                        android:layout_gravity="center_vertical">
-
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:scaleType="fitCenter"
-                            android:rotationX="0"
-                            android:layout_gravity="center"
-                            tools:srcCompat="@drawable/play_3917607"
-                            android:contentDescription="@string/album_cover_placeholder"/>
-                    </com.google.android.material.card.MaterialCardView>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginHorizontal="10dp">
-                        <TextView
-                            android:text="@string/tracks"
-                            android:layout_width="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="14sp"
-                            android:textColor="@color/black"
-                            android:layout_height="wrap_content">
-                        </TextView>
-                        <TextView
-                            android:text="3:45"
-                            android:layout_width="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="10sp"
-                            android:layout_marginTop="5dp"
-                            android:textColor="@color/black"
-                            android:layout_height="wrap_content">
-                        </TextView>
-                    </LinearLayout>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="15dp"
-                    android:paddingVertical="15dp">
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:cardCornerRadius="40dp"
-                        android:backgroundTint="#FF9800"
-                        tools:ignore="MissingConstraints"
-                        android:layout_gravity="center_vertical">
-
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:scaleType="fitCenter"
-                            android:rotationX="0"
-                            android:layout_gravity="center"
-                            tools:srcCompat="@drawable/play_3917607"
-                            android:contentDescription="@string/album_cover_placeholder"/>
-                    </com.google.android.material.card.MaterialCardView>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginHorizontal="10dp">
-                        <TextView
-                            android:text="@string/tracks"
-                            android:layout_width="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="14sp"
-                            android:textColor="@color/black"
-                            android:layout_height="wrap_content">
-                        </TextView>
-                        <TextView
-                            android:text="3:45"
-                            android:layout_width="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="10sp"
-                            android:layout_marginTop="5dp"
-                            android:textColor="@color/black"
-                            android:layout_height="wrap_content">
-                        </TextView>
-                    </LinearLayout>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="15dp"
-                    android:paddingVertical="15dp">
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:cardCornerRadius="40dp"
-                        android:backgroundTint="#FF9800"
-                        tools:ignore="MissingConstraints"
-                        android:layout_gravity="center_vertical">
-
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:scaleType="fitCenter"
-                            android:rotationX="0"
-                            android:layout_gravity="center"
-                            tools:srcCompat="@drawable/play_3917607"
-                            android:contentDescription="@string/album_cover_placeholder"/>
-                    </com.google.android.material.card.MaterialCardView>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginHorizontal="10dp">
-                        <TextView
-                            android:text="@string/tracks"
-                            android:layout_width="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="14sp"
-                            android:textColor="@color/black"
-                            android:layout_height="wrap_content">
-                        </TextView>
-                        <TextView
-                            android:text="3:45"
-                            android:layout_width="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:textSize="10sp"
-                            android:layout_marginTop="5dp"
-                            android:textColor="@color/black"
-                            android:layout_height="wrap_content">
-                        </TextView>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/album_detail_track_item"
+        ></androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 </layout>
