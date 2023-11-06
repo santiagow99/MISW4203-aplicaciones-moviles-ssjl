@@ -6,13 +6,14 @@
     <data>
         <variable
             name="albumDetail"
-            type="com.example.vinyls_jetpack_application.models.Album" />
+            type="com.example.vinyls_jetpack_application.models.AlbumDetail" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:foregroundGravity="center">
+        android:foregroundGravity="center"
+    >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,6 +35,7 @@
                     android:layout_height="wrap_content"
                     android:rotationX="0"
                     tools:srcCompat="@tools:sample/avatars"
+                    app:imageUrl="@{albumDetail.cover}"
                     android:contentDescription="@string/album_cover_placeholder"/>
             </com.google.android.material.card.MaterialCardView>
 
@@ -110,7 +112,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/date_album"
+                        android:text="@{albumDetail.releaseDate}"
                         android:textColor="#B3000000"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -134,7 +136,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/genre"
+                        android:text="@{albumDetail.genre}"
                         android:textColor="#B3000000"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -158,7 +160,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/record_label"
+                        android:text="@{albumDetail.recordLabel}"
                         android:textColor="#B3000000"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -182,11 +184,20 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/description_value"
+                        android:text="@{albumDetail.description}"
                         android:textColor="#B3000000"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tracksList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/album_detail_track_item"
+        ></androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 </layout>

@@ -4,12 +4,13 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.vinyls_jetpack_application.models.Album
 import com.android.volley.VolleyError
+import com.example.vinyls_jetpack_application.models.AlbumDetail
 import com.example.vinyls_jetpack_application.repositories.AlbumRepository
 class AlbumDetailViewModel(application: Application, albumId: Int) : AndroidViewModel(application){
 
     private val albumsRepository = AlbumRepository(application)
-    private val _albumDetails = MutableLiveData<Album>()
-    val albumDetails: LiveData<Album>
+    private val _albumDetails = MutableLiveData<AlbumDetail>()
+    val albumDetails: LiveData<AlbumDetail>
         get() = _albumDetails
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -25,7 +26,7 @@ class AlbumDetailViewModel(application: Application, albumId: Int) : AndroidView
     }
     private fun loadAlbumDetails(albumId: Int) {
 
-        albumsRepository.getAlbumById(albumId, { album: Album ->
+        albumsRepository.getAlbumById(albumId, { album: AlbumDetail ->
             _albumDetails.postValue(album)
         }, { error: VolleyError ->
             error
