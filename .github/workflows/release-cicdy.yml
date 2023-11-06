@@ -3,7 +3,8 @@ name: Validate Pull Request
 on:
   pull_request:
     branches:
-      - develop
+      - stage
+      - main
 
 jobs:
   build:
@@ -21,7 +22,7 @@ jobs:
 
       - name: Validate branch name
         run: |
-          if [[ ${{ github.event.pull_request.head.ref }} != feature/* ]]; then
+          if [[ ${{ github.event.pull_request.head.ref }} != release/* ]]; then
             echo "Error: La rama del pull request no cumple con el formato 'feature/*'."
             exit 1
           fi
