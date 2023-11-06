@@ -21,6 +21,7 @@ jobs:
           distribution: 'zulu' # Puedes cambiar la distribución según tus necesidades
           java-version: 17
 
+
       - name: Validate branch name
         run: |
           if [[ ${{ github.event.pull_request.head.ref }} != feature/* ]]; then
@@ -36,8 +37,9 @@ jobs:
         run: |
           ./gradlew build --warning-mode all
 
+
       - name: Generate APK
         run: |
           # Comandos para generar el APK
-          ./gradlew assembleDebug --warning-mode all
 
+          ./gradlew assembleDebug --warning-mode all
