@@ -40,6 +40,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
+                android:id="@+id/albumItemName"
                 android:text="@{albumDetail.name}"
                 android:layout_gravity="center_vertical"
                 android:textSize="20sp"
