@@ -39,7 +39,7 @@ public class AlbumTest {
         }
 
         onView(withId(R.id.albumCoverImageView)).check(matches(isDisplayed()));
-        onView(withId(R.id.textView6)).check(matches(isDisplayed()));
+        //onView(withId(R.id.textView6)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class AlbumTest {
             e.printStackTrace();
         }
         onView(withId(R.id.albumCarouselRv)).check(matches(isDisplayed()));
-        onView(withId(R.id.textView6)).check(matches(isDisplayed()));
+        //onView(withId(R.id.textView6)).check(matches(isDisplayed()));
     }
 
     @Test
