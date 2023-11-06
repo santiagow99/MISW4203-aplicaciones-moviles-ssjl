@@ -11,12 +11,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vinyls_jetpack_application.R
 import com.example.vinyls_jetpack_application.databinding.AlbumFragmentBinding
 import com.example.vinyls_jetpack_application.ui.adapters.AlbumsAdapter
 import com.example.vinyls_jetpack_application.viewmodels.AlbumViewModel
-import androidx.recyclerview.widget.PagerSnapHelper
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */

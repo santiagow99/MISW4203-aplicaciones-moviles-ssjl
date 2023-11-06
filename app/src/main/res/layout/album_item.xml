@@ -37,6 +37,7 @@
                     android:layout_height="400dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
+                    android:clickable="true"
                     app:imageUrl="@{album.cover}" />
 
                 <TextView
