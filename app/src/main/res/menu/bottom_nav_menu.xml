@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/albumFragment"
-        android:title="Home"
+        android:title="Álbumes"
         android:icon="@drawable/library" />
 
     <item
-        android:id="@+id/albumDetailFragment"
-        android:title="Search"
+        android:id="@+id/artistFragment"
+        android:title="Artistas"
         android:icon="@drawable/artists" />
 </menu>
