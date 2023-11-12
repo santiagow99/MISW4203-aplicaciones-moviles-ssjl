@@ -7,7 +7,12 @@
     <fragment
         android:id="@+id/albumFragment"
         android:name="com.example.vinyls_jetpack_application.ui.AlbumFragment"
-        android:label="Catalogo de álbumes"
-        tools:layout="@layout/album_fragment" >
+        android:label="Home" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="com.example.vinyls_jetpack_application.ui.AlbumDetailFragment"
+        android:label="Search" >
     </fragment>
 </navigation>

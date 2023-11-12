@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/albumFragment"
         android:title="Home"
-        android:icon="@drawable/comment" />
+        android:icon="@drawable/library" />
 
     <item
-        android:id="@+id/navigation_search"
+        android:id="@+id/albumDetailFragment"
         android:title="Search"
-        android:icon="@drawable/comment" />
+        android:icon="@drawable/artists" />
 </menu>
