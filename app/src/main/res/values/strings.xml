@@ -15,6 +15,7 @@
     <string name="album_cover_placeholder">Cover del album</string>
     <string name="title_albums">Albums</string>
     <string name="title_detail_album">Información del album</string>
+    <string name="title_artists">Artists</string>
     <string name="date_album">Fecha de lanzamiento</string>
     <string name="add_comment">Añadir comentario</string>
     <string name="genre">Género</string>

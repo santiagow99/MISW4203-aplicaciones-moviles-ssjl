@@ -11,6 +11,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.vinyls_jetpack_application.models.Album
 import com.example.vinyls_jetpack_application.models.AlbumDetail
+import com.example.vinyls_jetpack_application.models.Artist
 import com.example.vinyls_jetpack_application.models.Collector
 import com.example.vinyls_jetpack_application.models.Track
 import com.google.gson.Gson
@@ -74,6 +75,7 @@ class NetworkServiceAdapter constructor(context: Context) {
                 Log.d("", it.message.toString())
             }))
     }
+
     fun getAlbum(albumId:Int, onComplete:(resp: AlbumDetail)->Unit, onError: (error:VolleyError)->Unit) {
         requestQueue.add(getRequest("albums/$albumId",
             Response.Listener<String> { response ->
@@ -104,6 +106,66 @@ class NetworkServiceAdapter constructor(context: Context) {
             {
                 onError(it)
             }))
+
+    }
+
+    fun getArtists(
+        onComplete: (resp: List<Artist>) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        requestQueue.add(
+            getRequest(
+                "musicians",
+                { response ->
+                    val resp = JSONArray(response)
+                    val list = mutableListOf<Artist>()
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        list.add(
+                            Artist(
+                                artistId = item.getInt("id"),
+                                name = item.getString("name"),
+                                image = item.getString("image"),
+                                description = item.getString("description"),
+                                birthDate = item.getString("birthDate"),
+                                albums = emptyList(),
+                                performerPrizes = emptyList()
+                            )
+                        )
+                    }
+                    onComplete(list)
+                },
+                {
+                    onError(it)
+                })
+        )
+    }
+
+    fun getArtist(
+        artistId: Int,
+        onComplete: (resp: Artist) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        requestQueue.add(
+            getRequest(
+                "musicians/$artistId",
+                Response.Listener<String> { response ->
+                    val resp = JSONObject(response)
+                    val artist = Artist(
+                        artistId = resp.getInt("id"),
+                        name = resp.getString("name"),
+                        image = resp.getString("image"),
+                        description = resp.getString("description"),
+                        birthDate = resp.getString("birthDate"),
+                        albums = emptyList(),
+                        performerPrizes = emptyList()
+                    )
+                    onComplete(artist)
+                },
+                {
+                    onError(it)
+                })
+        )
     }
 
 
