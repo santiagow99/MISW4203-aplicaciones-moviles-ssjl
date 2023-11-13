@@ -22,10 +22,15 @@ class ArtistsAdapter : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>() {
             notifyDataSetChanged()
         }
 
+    var onItemClick: ((Artist) -> Unit)? = null
+
+    @LayoutRes
+    private val artistItemLayout = R.layout.artist_item
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistViewHolder {
         val withDataBinding: ArtistItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            ArtistViewHolder.LAYOUT,
+            artistItemLayout,
             parent,
             false
         )
@@ -33,31 +38,33 @@ class ArtistsAdapter : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
-        holder.viewDataBinding.also {
-            it.artist = artists[position]
-            // Load artist cover image using Glide
-            Glide.with(holder.viewDataBinding.artistImageView.context)
-                .load(artists[position].image)
-                .into(holder.viewDataBinding.artistImageView)
-            holder.viewDataBinding.artistImageView.setOnClickListener {
-                val intent = Intent(holder.itemView.context, ArtistDetailActivity::class.java)
-                val artist = artists[position]
-                intent.putExtra("artistId", artist.artistId)
-                holder.itemView.context.startActivity(intent)
-            }
-        }
+        holder.bind(artists[position])
     }
-
 
     override fun getItemCount(): Int {
         return artists.size
     }
 
-    class ArtistViewHolder(val viewDataBinding: ArtistItemBinding) :
+    inner class ArtistViewHolder(val viewDataBinding: ArtistItemBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
-        companion object {
-            @LayoutRes
-            val LAYOUT = R.layout.artist_item
+
+        fun bind(artist: Artist) {
+            viewDataBinding.artistDetail = artist
+
+            // Load artist cover image using Glide
+            Glide.with(viewDataBinding.artistImageView.context)
+                .load(artist.image)
+                .into(viewDataBinding.artistImageView)
+
+            // Set click listener on the entire card
+            viewDataBinding.cardView.setOnClickListener {
+                onItemClick?.invoke(artist)
+            }
+
+            // Set click listener on the image
+            viewDataBinding.artistImageView.setOnClickListener {
+                onItemClick?.invoke(artist)
+            }
         }
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="artist" type="com.example.vinyls_jetpack_application.models.Artist"/>
+        <variable name="artistDetail" type="com.example.vinyls_jetpack_application.models.Artist"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,13 +37,13 @@
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
                     android:clickable="true"
-                    app:imageUrl="@{artist.image}" />
+                    app:imageUrl="@{artistDetail.image}" />
 
                 <TextView
                     android:id="@+id/artistNameTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{artist.name}"
+                    android:text="@{artistDetail.name}"
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:textColor="#000000"

@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -48,6 +49,13 @@ class ArtistFragment : Fragment() {
         pagerSnapHelper.attachToRecyclerView(recyclerView)
 
         recyclerView.adapter = viewModelAdapter
+
+        // Set up item click listener
+        viewModelAdapter?.onItemClick = { artist ->
+            // Handle item click here, for example, navigate to the artist detail fragment
+            val action = ArtistFragmentDirections.actionArtistFragmentToArtistDetailFragment(artist.artistId)
+            findNavController().navigate(action)
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -79,6 +87,4 @@ class ArtistFragment : Fragment() {
             viewModel.onNetworkErrorShown()
         }
     }
-
 }
-
