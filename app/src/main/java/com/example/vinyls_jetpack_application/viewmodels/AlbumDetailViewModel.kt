@@ -1,6 +1,11 @@
 package com.example.vinyls_jetpack_application.viewmodels
 
 import android.app.Application
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StyleSpan
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.*
 import com.example.vinyls_jetpack_application.models.Album
 import com.android.volley.VolleyError

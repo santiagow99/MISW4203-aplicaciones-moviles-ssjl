@@ -7,10 +7,8 @@ import com.example.vinyls_jetpack_application.network.NetworkServiceAdapter
 
 class ArtistRepository(private val application: Application) {
     fun refreshData(callback: (List<Artist>) -> Unit, onError: (VolleyError) -> Unit) {
-        // Determine the data source to be used. If necessary, query the network by executing the following code
         NetworkServiceAdapter.getInstance(application).getArtists({
-            // Save the artists from the variable 'it' into a local data store for future use
-            callback(it)
+          callback(it)
         }, onError)
     }
 

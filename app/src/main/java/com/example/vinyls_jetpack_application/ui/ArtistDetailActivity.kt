@@ -3,14 +3,7 @@ package com.example.vinyls_jetpack_application.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.vinyls_jetpack_application.databinding.ArtistItemBinding
-import com.example.vinyls_jetpack_application.R
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ArtistDetailActivity : AppCompatActivity() {
 

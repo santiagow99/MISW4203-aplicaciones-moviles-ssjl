@@ -1,15 +1,11 @@
 package com.example.vinyls_jetpack_application.ui.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vinyls_jetpack_application.databinding.AlbumDetailTrackItemBinding
-import com.example.vinyls_jetpack_application.models.Album
 import com.example.vinyls_jetpack_application.models.Track
 
 class AlbumDetailTrackAdapter: RecyclerView.Adapter<AlbumDetailTrackAdapter.TrackViewHolder>() {

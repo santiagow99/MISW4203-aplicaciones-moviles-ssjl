@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/artistDetailFragment"
         android:name="com.example.vinyls_jetpack_application.ui.ArtistDetailFragment"
-        android:label="Artist Detail">
+        android:label="Artista">
 
         <argument
             android:name="artistId"

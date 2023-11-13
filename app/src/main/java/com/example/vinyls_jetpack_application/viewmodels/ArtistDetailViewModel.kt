@@ -26,12 +26,10 @@ class ArtistDetailViewModel(application: Application) : AndroidViewModel(applica
                 _selectedArtist.postValue(artist)
             },
             { error ->
-                // Handle error
             }
         )
     }
 
-    // Factory for creating ViewModel with artist ID parameter
     class Factory(private val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ArtistDetailViewModel::class.java)) {

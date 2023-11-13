@@ -1,8 +1,6 @@
 package com.example.vinyls_jetpack_application.ui.adapters
 
-import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
@@ -11,8 +9,6 @@ import com.bumptech.glide.Glide
 import com.example.vinyls_jetpack_application.R
 import com.example.vinyls_jetpack_application.databinding.ArtistItemBinding
 import com.example.vinyls_jetpack_application.models.Artist
-import com.example.vinyls_jetpack_application.ui.AlbumDetailActivity
-import com.example.vinyls_jetpack_application.ui.ArtistDetailActivity
 
 class ArtistsAdapter : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>() {
 

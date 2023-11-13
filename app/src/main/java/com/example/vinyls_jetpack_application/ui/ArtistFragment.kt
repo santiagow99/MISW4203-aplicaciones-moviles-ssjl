@@ -40,11 +40,9 @@ class ArtistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView = view.findViewById(R.id.artistRecyclerView)
 
-        // Change the orientation to vertical
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = layoutManager
 
-        // Remove PagerSnapHelper if you don't want page snapping
         val pagerSnapHelper = PagerSnapHelper()
         pagerSnapHelper.attachToRecyclerView(recyclerView)
 
@@ -52,7 +50,6 @@ class ArtistFragment : Fragment() {
 
         // Set up item click listener
         viewModelAdapter?.onItemClick = { artist ->
-            // Handle item click here, for example, navigate to the artist detail fragment
             val action = ArtistFragmentDirections.actionArtistFragmentToArtistDetailFragment(artist.artistId)
             findNavController().navigate(action)
         }
