@@ -38,4 +38,3 @@ jobs:
         run: |
           # Comandos para generar el APK
           ./gradlew assembleDebug --warning-mode all
-
