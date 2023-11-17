@@ -1,7 +1,6 @@
 package com.example.vinyls_jetpack_application.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.NavController

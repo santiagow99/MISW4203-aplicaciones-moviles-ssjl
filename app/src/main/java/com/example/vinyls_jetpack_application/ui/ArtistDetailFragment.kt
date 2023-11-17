@@ -1,6 +1,6 @@
 package com.example.vinyls_jetpack_application.ui
 
-import ArtistDetailViewModel
+import com.example.vinyls_jetpack_application.viewmodels.ArtistDetailViewModel
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
@@ -9,13 +9,9 @@ import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.vinyls_jetpack_application.R
@@ -23,6 +19,7 @@ import com.example.vinyls_jetpack_application.databinding.ArtistDetailFragmentBi
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class ArtistDetailFragment : Fragment() {
@@ -87,7 +84,7 @@ class ArtistDetailFragment : Fragment() {
 
         return try {
             val date = inputFormat.parse(inputDate)
-            outputFormat.format(date)
+            outputFormat.format(date as Date)
         } catch (e: ParseException) {
             e.printStackTrace()
             inputDate
@@ -95,6 +92,7 @@ class ArtistDetailFragment : Fragment() {
     }
 
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val activity = requireNotNull(this.activity) {

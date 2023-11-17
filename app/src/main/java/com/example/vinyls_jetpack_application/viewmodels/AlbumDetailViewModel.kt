@@ -1,14 +1,7 @@
 package com.example.vinyls_jetpack_application.viewmodels
 
 import android.app.Application
-import android.graphics.Typeface
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.StyleSpan
-import androidx.databinding.BindingAdapter
 import androidx.lifecycle.*
-import com.example.vinyls_jetpack_application.models.Album
-import com.android.volley.VolleyError
 import com.example.vinyls_jetpack_application.models.AlbumDetail
 import com.example.vinyls_jetpack_application.repositories.AlbumRepository
 class AlbumDetailViewModel(application: Application, albumId: Int) : AndroidViewModel(application){
@@ -17,12 +10,12 @@ class AlbumDetailViewModel(application: Application, albumId: Int) : AndroidView
     private val _albumDetails = MutableLiveData<AlbumDetail>()
     val albumDetails: LiveData<AlbumDetail>
         get() = _albumDetails
-    private var _eventNetworkError = MutableLiveData<Boolean>(false)
+    private var _eventNetworkError = MutableLiveData(false)
 
     val eventNetworkError: LiveData<Boolean>
         get() = _eventNetworkError
 
-    private var _isNetworkErrorShown = MutableLiveData<Boolean>(false)
+    private var _isNetworkErrorShown = MutableLiveData(false)
 
     val isNetworkErrorShown: LiveData<Boolean>
         get() = _isNetworkErrorShown
@@ -33,8 +26,7 @@ class AlbumDetailViewModel(application: Application, albumId: Int) : AndroidView
 
         albumsRepository.getAlbumById(albumId, { album: AlbumDetail ->
             _albumDetails.postValue(album)
-        }, { error: VolleyError ->
-            error
+        }, {
         })
     }
     fun onNetworkErrorShown() {

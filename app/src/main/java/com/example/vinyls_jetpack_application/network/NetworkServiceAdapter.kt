@@ -34,13 +34,14 @@ class NetworkServiceAdapter constructor(context: Context) {
         Volley.newRequestQueue(context.applicationContext)
     }
     fun getAlbums(onComplete:(resp:List<Album>)->Unit, onError: (error:VolleyError)->Unit){
-        val gson = Gson()
+        Gson()
         requestQueue.add(getRequest("albums",
             { response ->
                 val resp = JSONArray(response)
                 val list = mutableListOf<Album>()
+                var item:JSONObject?
                 for (i in 0 until resp.length()) {
-                    val item = resp.getJSONObject(i)
+                    item = resp.getJSONObject(i)
                     Log.e("item album -->", item.toString())
                     list.add(i, Album(
                         albumId = item.getInt("id"),
@@ -64,8 +65,9 @@ class NetworkServiceAdapter constructor(context: Context) {
                 Log.d("tagb", response)
                 val resp = JSONArray(response)
                 val list = mutableListOf<Collector>()
+                var item:JSONObject?
                 for (i in 0 until resp.length()) {
-                    val item = resp.getJSONObject(i)
+                    item = resp.getJSONObject(i)
                     list.add(i, Collector(collectorId = item.getInt("id"),name = item.getString("name"), telephone = item.getString("telephone"), email = item.getString("email")))
                 }
                 onComplete(list)
@@ -78,12 +80,13 @@ class NetworkServiceAdapter constructor(context: Context) {
 
     fun getAlbum(albumId:Int, onComplete:(resp: AlbumDetail)->Unit, onError: (error:VolleyError)->Unit) {
         requestQueue.add(getRequest("albums/$albumId",
-            Response.Listener<String> { response ->
+            { response ->
                 val resp = JSONObject(response)
                 val tracks = resp.getJSONArray("tracks")
                 val tracksList = mutableListOf<Track>()
+                var item:JSONObject?
                 for (i in 0 until tracks.length()) {
-                    val item = tracks.getJSONObject(i)
+                    item = tracks.getJSONObject(i)
                     tracksList.add(
                         Track(i,
                             name = item.getString("name"),
@@ -119,8 +122,9 @@ class NetworkServiceAdapter constructor(context: Context) {
                 { response ->
                     val resp = JSONArray(response)
                     val list = mutableListOf<Artist>()
+                    var item:JSONObject?
                     for (i in 0 until resp.length()) {
-                        val item = resp.getJSONObject(i)
+                        item = resp.getJSONObject(i)
                         list.add(
                             Artist(
                                 artistId = item.getInt("id"),
@@ -149,7 +153,7 @@ class NetworkServiceAdapter constructor(context: Context) {
         requestQueue.add(
             getRequest(
                 "musicians/$artistId",
-                Response.Listener<String> { response ->
+                { response ->
                     val resp = JSONObject(response)
                     val artist = Artist(
                         artistId = resp.getInt("id"),
