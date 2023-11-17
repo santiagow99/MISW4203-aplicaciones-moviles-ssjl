@@ -19,6 +19,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class NetworkServiceAdapter constructor(context: Context) {
+    private val cacheManager = CacheManager.getInstance(context)
     companion object{
         const val BASE_URL= "https://vynils-back-heroku.herokuapp.com/"
         private var instance: NetworkServiceAdapter? = null
@@ -34,6 +35,11 @@ class NetworkServiceAdapter constructor(context: Context) {
         Volley.newRequestQueue(context.applicationContext)
     }
     fun getAlbums(onComplete:(resp:List<Album>)->Unit, onError: (error:VolleyError)->Unit){
+        cacheManager.getCachedAlbums("albums")?.let { cachedAlbums ->
+            onComplete(cachedAlbums)
+            return
+        }
+
         Gson()
         requestQueue.add(getRequest("albums",
             { response ->
@@ -53,7 +59,9 @@ class NetworkServiceAdapter constructor(context: Context) {
                         description = item.getString("description"),
                     ))
                 }
+                cacheManager.setCachedAlbums("albums", list)
                 onComplete(list)
+
             },
             {
                 onError(it)
@@ -79,6 +87,11 @@ class NetworkServiceAdapter constructor(context: Context) {
     }
 
     fun getAlbum(albumId:Int, onComplete:(resp: AlbumDetail)->Unit, onError: (error:VolleyError)->Unit) {
+        cacheManager.getCachedAlbums("albums")?.find { it.albumId == albumId }?.let { cachedAlbum ->
+            val albumDetail = cachedAlbum as AlbumDetail
+            onComplete(albumDetail)
+            return
+        }
         requestQueue.add(getRequest("albums/$albumId",
             { response ->
                 val resp = JSONObject(response)
@@ -116,6 +129,10 @@ class NetworkServiceAdapter constructor(context: Context) {
         onComplete: (resp: List<Artist>) -> Unit,
         onError: (error: VolleyError) -> Unit
     ) {
+        cacheManager.getCachedArtists("artists")?.let { cachedArtists ->
+            onComplete(cachedArtists)
+            return
+        }
         requestQueue.add(
             getRequest(
                 "musicians",
@@ -137,6 +154,7 @@ class NetworkServiceAdapter constructor(context: Context) {
                             )
                         )
                     }
+                    cacheManager.setCachedArtists("artists", list)
                     onComplete(list)
                 },
                 {
@@ -150,6 +168,10 @@ class NetworkServiceAdapter constructor(context: Context) {
         onComplete: (resp: Artist) -> Unit,
         onError: (error: VolleyError) -> Unit
     ) {
+        cacheManager.getCachedArtists("artists")?.find { it.artistId == artistId }?.let { cachedArtist ->
+            onComplete(cachedArtist)
+            return
+        }
         requestQueue.add(
             getRequest(
                 "musicians/$artistId",
