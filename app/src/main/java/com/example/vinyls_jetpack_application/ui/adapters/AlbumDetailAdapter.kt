@@ -1,5 +1,3 @@
-package com.example.vinyls_jetpack_application.ui.adapters
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +7,10 @@ import com.example.vinyls_jetpack_application.models.AlbumDetail
 
 class AlbumDetailAdapter : BaseAdapter() {
 
-    var album: AlbumDetail? = null
+    private var album: AlbumDetail? = null
 
     override fun getCount(): Int {
-        return 1 // Solo hay un elemento de detalle de álbum
+        return 1
     }
 
     override fun getItem(position: Int): Any? {
@@ -20,14 +18,31 @@ class AlbumDetailAdapter : BaseAdapter() {
     }
 
     override fun getItemId(position: Int): Long {
-        return 0 // No se utiliza en este caso
+        return 0
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val inflater = LayoutInflater.from(parent?.context)
-        val binding = AlbumDetailItemBinding.inflate(inflater, parent, false)
-        album?.let { binding.albumDetail = it }
-        return binding.root
+        val viewHolder: ViewHolder
+        val view: View
+
+        if (convertView == null) {
+            val inflater = LayoutInflater.from(parent?.context)
+            val binding = AlbumDetailItemBinding.inflate(inflater, parent, false)
+            view = binding.root
+            viewHolder = ViewHolder(binding)
+            view.tag = viewHolder
+        } else {
+            view = convertView
+            viewHolder = view.tag as ViewHolder
+        }
+
+        album?.let { viewHolder.bind(it) }
+        return view
+    }
+
+    private class ViewHolder(val binding: AlbumDetailItemBinding) {
+        fun bind(album: AlbumDetail) {
+            binding.albumDetail = album
+        }
     }
 }
-
