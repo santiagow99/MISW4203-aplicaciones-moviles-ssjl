@@ -87,11 +87,6 @@ class NetworkServiceAdapter constructor(context: Context) {
     }
 
     fun getAlbum(albumId:Int, onComplete:(resp: AlbumDetail)->Unit, onError: (error:VolleyError)->Unit) {
-        cacheManager.getCachedAlbums("albums")?.find { it.albumId == albumId }?.let { cachedAlbum ->
-            val albumDetail = cachedAlbum as AlbumDetail
-            onComplete(albumDetail)
-            return
-        }
         requestQueue.add(getRequest("albums/$albumId",
             { response ->
                 val resp = JSONObject(response)
