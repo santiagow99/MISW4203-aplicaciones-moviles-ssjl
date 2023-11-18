@@ -41,7 +41,7 @@ class ArtistsAdapter : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>() {
         return artists.size
     }
 
-    inner class ArtistViewHolder(val viewDataBinding: ArtistItemBinding) :
+    inner class ArtistViewHolder(private val viewDataBinding: ArtistItemBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
 
         fun bind(artist: Artist) {

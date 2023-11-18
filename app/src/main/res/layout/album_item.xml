@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:custom="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable name="album" type="com.example.vinyls_jetpack_application.models.Album" />
@@ -38,7 +37,9 @@
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
                     android:clickable="true"
-                    app:imageUrl="@{album.cover}" />
+                    app:imageUrl="@{album.cover}"
+                    android:contentDescription="Imgen propia"
+                    android:focusable="true" />
 
                 <TextView
                     android:id="@+id/textView6"

@@ -4,9 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.example.vinyls_jetpack_application.databinding.AlbumDetailItemBinding
-import com.example.vinyls_jetpack_application.models.Album
 import com.example.vinyls_jetpack_application.models.AlbumDetail
 
 class AlbumDetailAdapter : BaseAdapter() {

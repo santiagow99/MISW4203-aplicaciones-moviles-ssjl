@@ -19,6 +19,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class NetworkServiceAdapter constructor(context: Context) {
+    private val cacheManager = CacheManager.getInstance(context)
     companion object{
         const val BASE_URL= "https://vynils-back-heroku.herokuapp.com/"
         private var instance: NetworkServiceAdapter? = null
@@ -34,13 +35,19 @@ class NetworkServiceAdapter constructor(context: Context) {
         Volley.newRequestQueue(context.applicationContext)
     }
     fun getAlbums(onComplete:(resp:List<Album>)->Unit, onError: (error:VolleyError)->Unit){
-        val gson = Gson()
+        cacheManager.getCachedAlbums("albums")?.let { cachedAlbums ->
+            onComplete(cachedAlbums)
+            return
+        }
+
+        Gson()
         requestQueue.add(getRequest("albums",
             { response ->
                 val resp = JSONArray(response)
                 val list = mutableListOf<Album>()
+                var item:JSONObject?
                 for (i in 0 until resp.length()) {
-                    val item = resp.getJSONObject(i)
+                    item = resp.getJSONObject(i)
                     Log.e("item album -->", item.toString())
                     list.add(i, Album(
                         albumId = item.getInt("id"),
@@ -52,7 +59,9 @@ class NetworkServiceAdapter constructor(context: Context) {
                         description = item.getString("description"),
                     ))
                 }
+                cacheManager.setCachedAlbums("albums", list)
                 onComplete(list)
+
             },
             {
                 onError(it)
@@ -64,8 +73,9 @@ class NetworkServiceAdapter constructor(context: Context) {
                 Log.d("tagb", response)
                 val resp = JSONArray(response)
                 val list = mutableListOf<Collector>()
+                var item:JSONObject?
                 for (i in 0 until resp.length()) {
-                    val item = resp.getJSONObject(i)
+                    item = resp.getJSONObject(i)
                     list.add(i, Collector(collectorId = item.getInt("id"),name = item.getString("name"), telephone = item.getString("telephone"), email = item.getString("email")))
                 }
                 onComplete(list)
@@ -77,13 +87,19 @@ class NetworkServiceAdapter constructor(context: Context) {
     }
 
     fun getAlbum(albumId:Int, onComplete:(resp: AlbumDetail)->Unit, onError: (error:VolleyError)->Unit) {
+        cacheManager.getCachedAlbums("albums")?.find { it.albumId == albumId }?.let { cachedAlbum ->
+            val albumDetail = cachedAlbum as AlbumDetail
+            onComplete(albumDetail)
+            return
+        }
         requestQueue.add(getRequest("albums/$albumId",
-            Response.Listener<String> { response ->
+            { response ->
                 val resp = JSONObject(response)
                 val tracks = resp.getJSONArray("tracks")
                 val tracksList = mutableListOf<Track>()
+                var item:JSONObject?
                 for (i in 0 until tracks.length()) {
-                    val item = tracks.getJSONObject(i)
+                    item = tracks.getJSONObject(i)
                     tracksList.add(
                         Track(i,
                             name = item.getString("name"),
@@ -113,14 +129,19 @@ class NetworkServiceAdapter constructor(context: Context) {
         onComplete: (resp: List<Artist>) -> Unit,
         onError: (error: VolleyError) -> Unit
     ) {
+        cacheManager.getCachedArtists("artists")?.let { cachedArtists ->
+            onComplete(cachedArtists)
+            return
+        }
         requestQueue.add(
             getRequest(
                 "musicians",
                 { response ->
                     val resp = JSONArray(response)
                     val list = mutableListOf<Artist>()
+                    var item:JSONObject?
                     for (i in 0 until resp.length()) {
-                        val item = resp.getJSONObject(i)
+                        item = resp.getJSONObject(i)
                         list.add(
                             Artist(
                                 artistId = item.getInt("id"),
@@ -133,6 +154,7 @@ class NetworkServiceAdapter constructor(context: Context) {
                             )
                         )
                     }
+                    cacheManager.setCachedArtists("artists", list)
                     onComplete(list)
                 },
                 {
@@ -146,10 +168,14 @@ class NetworkServiceAdapter constructor(context: Context) {
         onComplete: (resp: Artist) -> Unit,
         onError: (error: VolleyError) -> Unit
     ) {
+        cacheManager.getCachedArtists("artists")?.find { it.artistId == artistId }?.let { cachedArtist ->
+            onComplete(cachedArtist)
+            return
+        }
         requestQueue.add(
             getRequest(
                 "musicians/$artistId",
-                Response.Listener<String> { response ->
+                { response ->
                     val resp = JSONObject(response)
                     val artist = Artist(
                         artistId = resp.getInt("id"),

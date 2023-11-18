@@ -1,3 +1,5 @@
+package com.example.vinyls_jetpack_application.viewmodels
+
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -25,7 +27,7 @@ class ArtistDetailViewModel(application: Application) : AndroidViewModel(applica
             { artist ->
                 _selectedArtist.postValue(artist)
             },
-            { error ->
+            {
             }
         )
     }

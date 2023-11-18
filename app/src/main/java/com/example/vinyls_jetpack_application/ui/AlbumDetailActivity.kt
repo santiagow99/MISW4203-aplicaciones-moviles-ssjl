@@ -10,7 +10,7 @@ import com.example.vinyls_jetpack_application.databinding.ActivityAlbumDetailBin
 
 class AlbumDetailActivity : AppCompatActivity() {
 
-    private var albumId: Int = 0;
+    private var albumId: Int = 0
     private lateinit var navController: NavController
 
 
