@@ -168,6 +168,25 @@ class NetworkServiceAdapter constructor(context: Context) {
         )
     }
 
+    fun addAlbumToMusician(
+        artistId: Int,
+        albumId: Int,
+        onComplete: (resp: JSONObject) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        requestQueue.add(
+            postRequest(
+                "musicians/$artistId/albums/$albumId",
+                JSONObject(),
+                Response.Listener<JSONObject> { response ->
+                    Log.d("Response Add Album",response.toString())
+                    onComplete(response)
+                }
+            ) {
+                onError(it)
+            }
+        )
+    }
 
     private fun getRequest(path:String, responseListener: Response.Listener<String>, errorListener: Response.ErrorListener): StringRequest {
         return StringRequest(Request.Method.GET, BASE_URL+path, responseListener,errorListener)
