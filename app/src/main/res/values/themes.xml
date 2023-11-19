@@ -15,7 +15,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Vinyls_Jetpack_Application.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Vinyls_Jetpack_Application.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" tools:ignore="UnusedResources" />
 
-    <style name="Theme.Vinyls_Jetpack_Application.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.Vinyls_Jetpack_Application.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" tools:ignore="UnusedResources" />
 </resources>

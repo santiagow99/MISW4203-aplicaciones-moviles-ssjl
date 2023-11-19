@@ -10,6 +10,7 @@ android {
     defaultConfig {
         applicationId "com.example.vinyls_jetpack_application"
         minSdk 21
+        //noinspection OldTargetApi
         targetSdk 31
         versionCode 1
         versionName "1.0"

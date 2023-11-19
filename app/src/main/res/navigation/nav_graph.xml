@@ -24,6 +24,7 @@
         android:name="com.example.vinyls_jetpack_application.ui.ArtistDetailFragment"
         android:label="Artista">
 
+        <!--suppress NavigationFile -->
         <argument
             android:name="artistId"
             app:argType="integer" />

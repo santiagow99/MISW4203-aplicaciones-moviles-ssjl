@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/albumFragment"
         android:title="Álbumes"
-        android:icon="@drawable/library" />
+        android:icon="@drawable/library"
+        tools:ignore="HardcodedText" />
 
     <item
         android:id="@+id/artistFragment"
         android:title="Artistas"
-        android:icon="@drawable/artists" />
+        android:icon="@drawable/artists"
+        tools:ignore="HardcodedText" />
 </menu>

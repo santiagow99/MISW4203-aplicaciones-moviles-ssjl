@@ -1,17 +1,17 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Vinyls_Jetpack_Application</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings" tools:keep="@string/action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="first_fragment_label" tools:keep="@string/first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label" tools:keep="@string/second_fragment_label">Second Fragment</string>
+    <string name="next" tools:keep="@string/next">Next</string>
+    <string name="previous" tools:keep="@string/previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="collector_name_placeholder">Nombre del coleccionista</string>
-    <string name="collector_email_placeholder">Correo del coleccionista</string>
-    <string name="collector_phone_placeholder">Número telefónico</string>
+    <string name="hello_first_fragment" tools:keep="@string/hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment" tools:keep="@string/hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="collector_name_placeholder" tools:keep="@string/collector_name_placeholder">Nombre del coleccionista</string>
+    <string name="collector_email_placeholder" tools:keep="@string/collector_email_placeholder">Correo del coleccionista</string>
+    <string name="collector_phone_placeholder" tools:keep="@string/collector_phone_placeholder">Número telefónico</string>
     <string name="album_cover_placeholder">Cover del album</string>
     <string name="title_albums">Albums</string>
     <string name="title_detail_album">Información del album</string>
@@ -22,10 +22,10 @@
     <string name="record_label">Sello discográfico</string>
     <string name="description">Descripción</string>
     <string name="tracks">Tracklist</string>
-    <string name="description_value">Buscando América es el primer álbum de la banda de Rubén Blades y Seis del Solar lanzado en 1984. La producción, bajo el sello Elektra, fusiona diferentes ritmos musicales tales como la salsa, reggae, rock, y el jazz latino. El disco fue grabado en Eurosound Studios en Nueva York entre mayo y agosto de 1983.</string>
-    <string name="title_activity_album_detail">AlbumDetailActivity</string>
+    <string name="description_value" tools:keep="@string/description_value">Buscando América es el primer álbum de la banda de Rubén Blades y Seis del Solar lanzado en 1984. La producción, bajo el sello Elektra, fusiona diferentes ritmos musicales tales como la salsa, reggae, rock, y el jazz latino. El disco fue grabado en Eurosound Studios en Nueva York entre mayo y agosto de 1983.</string>
+    <string name="title_activity_album_detail" tools:keep="@string/title_activity_album_detail">AlbumDetailActivity</string>
 
-    <string name="lorem_ipsum">
+    <string name="lorem_ipsum" tools:keep="@string/lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
         dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
@@ -62,5 +62,5 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" tools:keep="@string/hello_blank_fragment">Hello blank fragment</string>
 </resources>
