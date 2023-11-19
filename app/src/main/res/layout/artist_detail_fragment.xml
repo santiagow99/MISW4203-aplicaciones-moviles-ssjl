@@ -121,6 +121,7 @@
             app:backgroundTint="@color/white"
             tools:ignore="SpeakableTextPresentCheck"
             android:clickable="true"
+            android:onClick="onClickFloatingButton"
             app:elevation="6dp"
             app:borderWidth="0dp"
             android:scaleType="fitCenter"
