@@ -14,7 +14,7 @@ import com.example.vinyls_jetpack_application.viewmodels.AlbumDetailViewModel
 import com.example.vinyls_jetpack_application.R
 import com.example.vinyls_jetpack_application.ui.adapters.AlbumDetailTrackAdapter
 
-class AlbumDetailFragment: Fragment()  {
+class AlbumDetailFragment : Fragment() {
     private var _binding: AlbumDetailItemBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: AlbumDetailViewModel
@@ -26,7 +26,7 @@ class AlbumDetailFragment: Fragment()  {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("onCreateView -->","0")
+        Log.d("onCreateView -->", "0")
         _binding = AlbumDetailItemBinding.inflate(inflater, container, false)
         val view = binding.root
         viewModelAdapter = AlbumDetailTrackAdapter()
@@ -41,18 +41,22 @@ class AlbumDetailFragment: Fragment()  {
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val activity = requireNotNull(this.activity) {
+        val activity = requireNotNull(requireActivity() as? AlbumDetailActivity) {
             "You can only access the viewModel after onActivityCreated()"
         }
-        val albumId = (getActivity() as AlbumDetailActivity?)?.getAlbumId() ?: 0
-        Log.d("onActivityCreated -->","0")
+
+        val albumId = activity.getAlbumId()
+        Log.d("onActivityCreated -->", "0")
+
         viewModel =
             ViewModelProvider(this, AlbumDetailViewModel.Factory(activity.application, albumId))[AlbumDetailViewModel::class.java]
+
         viewModel.albumDetails.observe(viewLifecycleOwner) { album ->
             Log.d("albumDetails -->", album.name)
             binding.albumDetail = album
             viewModelAdapter?.tracks = album.tracks
         }
+
         viewModel.eventNetworkError.observe(viewLifecycleOwner) { isNetworkError ->
             if (isNetworkError) onNetworkError()
         }
@@ -64,7 +68,7 @@ class AlbumDetailFragment: Fragment()  {
     }
 
     private fun onNetworkError() {
-        if(!viewModel.isNetworkErrorShown.value!!) {
+        if (!viewModel.isNetworkErrorShown.value!!) {
             Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
             viewModel.onNetworkErrorShown()
         }
