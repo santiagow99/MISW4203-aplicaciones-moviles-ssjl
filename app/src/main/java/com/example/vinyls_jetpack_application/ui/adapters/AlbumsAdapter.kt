@@ -1,5 +1,6 @@
 package com.example.vinyls_jetpack_application.ui.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.example.vinyls_jetpack_application.ui.AlbumDetailActivity
 class AlbumsAdapter : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
 
     var albums: List<Album> = emptyList()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             notifyDataSetChanged()
