@@ -15,7 +15,7 @@ class ArtistsAdapter : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>() {
     var artists: List<Artist> = emptyList()
         set(value) {
             field = value
-            notifyDataSetChanged()
+            notifyItemRangeChanged(0, itemCount)
         }
 
     var onItemClick: ((Artist) -> Unit)? = null
@@ -44,22 +44,24 @@ class ArtistsAdapter : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>() {
     inner class ArtistViewHolder(private val viewDataBinding: ArtistItemBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
 
-        fun bind(artist: Artist) {
-            viewDataBinding.artistDetail = artist
-
-            // Load artist cover image using Glide
-            Glide.with(viewDataBinding.artistImageView.context)
-                .load(artist.image)
-                .into(viewDataBinding.artistImageView)
-
-            // Set click listener on the entire card
+        init {
             viewDataBinding.cardView.setOnClickListener {
-                onItemClick?.invoke(artist)
+                onItemClick?.invoke(artists[adapterPosition])
             }
 
-            // Set click listener on the image
             viewDataBinding.artistImageView.setOnClickListener {
-                onItemClick?.invoke(artist)
+                onItemClick?.invoke(artists[adapterPosition])
+            }
+        }
+
+        fun bind(artist: Artist) {
+            with(viewDataBinding) {
+                artistDetail = artist
+
+                // Load artist cover image using Glide
+                Glide.with(artistImageView.context)
+                    .load(artist.image)
+                    .into(artistImageView)
             }
         }
     }
