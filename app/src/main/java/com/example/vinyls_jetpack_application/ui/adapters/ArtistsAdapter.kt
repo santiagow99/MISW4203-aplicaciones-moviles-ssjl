@@ -1,5 +1,6 @@
 package com.example.vinyls_jetpack_application.ui.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
@@ -9,6 +10,9 @@ import com.bumptech.glide.Glide
 import com.example.vinyls_jetpack_application.R
 import com.example.vinyls_jetpack_application.databinding.ArtistItemBinding
 import com.example.vinyls_jetpack_application.models.Artist
+import com.example.vinyls_jetpack_application.ui.ArtistDetailActivity
+import com.example.vinyls_jetpack_application.ui.AddAlbumArtistFragment
+import com.example.vinyls_jetpack_application.ui.AlbumDetailActivity
 
 class ArtistsAdapter : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>() {
 
@@ -35,6 +39,12 @@ class ArtistsAdapter : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>() {
 
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
         holder.bind(artists[position])
+        holder.viewDataBinding.albumCoverImageView.setOnClickListener {
+            val intent = Intent(holder.itemView.context, AlbumDetailActivity::class.java)
+            val album = albums[position]
+            intent.putExtra("albumId", album.albumId)
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
