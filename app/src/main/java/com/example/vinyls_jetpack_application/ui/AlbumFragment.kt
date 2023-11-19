@@ -17,15 +17,13 @@ import com.example.vinyls_jetpack_application.R
 import com.example.vinyls_jetpack_application.databinding.AlbumFragmentBinding
 import com.example.vinyls_jetpack_application.ui.adapters.AlbumsAdapter
 import com.example.vinyls_jetpack_application.viewmodels.AlbumViewModel
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
+
 class AlbumFragment : Fragment() {
     private var _binding: AlbumFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: AlbumViewModel
-    private var viewModelAdapter: AlbumsAdapter? = null
+    private val viewModelAdapter: AlbumsAdapter by lazy { AlbumsAdapter() }
     private lateinit var searchEditText: EditText
 
     override fun onCreateView(
@@ -33,9 +31,7 @@ class AlbumFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = AlbumFragmentBinding.inflate(inflater, container, false)
-        val view = binding.root
-        viewModelAdapter = AlbumsAdapter()
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,17 +49,15 @@ class AlbumFragment : Fragment() {
         setupSearchListener()
     }
 
-    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val activity = requireNotNull(this.activity) {
-            "You can only access the viewModel after onActivityCreated()"
-        }
+        val activity = requireActivity()
         activity.actionBar?.title = getString(R.string.title_albums)
-        viewModel = ViewModelProvider(this, AlbumViewModel.Factory(activity.application))[AlbumViewModel::class.java]
+        viewModel =
+            ViewModelProvider(this, AlbumViewModel.Factory(activity.application))[AlbumViewModel::class.java]
 
         viewModel.albums.observe(viewLifecycleOwner) { albums ->
-            viewModelAdapter?.albums = albums
+            viewModelAdapter.albums = albums
         }
 
         viewModel.eventNetworkError.observe(viewLifecycleOwner) { isNetworkError ->
@@ -77,8 +71,9 @@ class AlbumFragment : Fragment() {
     }
 
     private fun onNetworkError() {
-        if(!viewModel.isNetworkErrorShown.value!!) {
-            Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
+        if (!viewModel.isNetworkErrorShown.value!!) {
+            Toast.makeText(requireActivity(), "Network Error", Toast.LENGTH_LONG)
+                .show()
             viewModel.onNetworkErrorShown()
         }
     }

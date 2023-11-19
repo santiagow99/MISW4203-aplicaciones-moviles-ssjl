@@ -48,33 +48,37 @@ class ArtistDetailFragment : Fragment() {
         viewModel.getArtistById(args.artistId)
 
         viewModel.selectedArtist.observe(viewLifecycleOwner) { artist ->
-            binding.artistDetailNameTextView.text = artist.name
-            Glide.with(requireContext())
-                .load(artist.image)
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.artistDetailImageView)
+            with(binding) {
+                artistDetailNameTextView.text = artist.name
+                Glide.with(requireContext())
+                    .load(artist.image)
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(artistDetailImageView)
 
-            val descriptionTextView = binding.artistDetailDescriptionTextView
-            val formattedDescriptionText = SpannableString("Descripción: ${artist.description}")
-            formattedDescriptionText.setSpan(
-                StyleSpan(Typeface.BOLD),
-                0,
-                12,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            descriptionTextView.text = formattedDescriptionText
+                val descriptionTextView = artistDetailDescriptionTextView
+                val formattedDescriptionText =
+                    SpannableString("Descripción: ${artist.description}")
+                formattedDescriptionText.setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    0,
+                    12,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                descriptionTextView.text = formattedDescriptionText
 
-            val birthDateTextView = binding.artistDetailBirthdateTextView
-            val formattedbirthDateText = SpannableString("Fecha de nacimiento: ${formatBirthDate(artist.birthDate)}")
-            formattedbirthDateText.setSpan(
-                StyleSpan(Typeface.BOLD),
-                0,
-                20,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
+                val birthDateTextView = artistDetailBirthdateTextView
+                val formattedbirthDateText =
+                    SpannableString("Fecha de nacimiento: ${formatBirthDate(artist.birthDate)}")
+                formattedbirthDateText.setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    0,
+                    20,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
 
-            birthDateTextView.text = formattedbirthDateText
+                birthDateTextView.text = formattedbirthDateText
+            }
         }
     }
 
@@ -91,7 +95,6 @@ class ArtistDetailFragment : Fragment() {
         }
     }
 
-
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -105,7 +108,8 @@ class ArtistDetailFragment : Fragment() {
             if (destination.id == R.id.artistDetailFragment) {
                 activity.findViewById<BottomNavigationView>(R.id.bottom_nav)?.visibility = View.GONE
             } else {
-                activity.findViewById<BottomNavigationView>(R.id.bottom_nav)?.visibility = View.VISIBLE
+                activity.findViewById<BottomNavigationView>(R.id.bottom_nav)?.visibility =
+                    View.VISIBLE
             }
         }
     }
