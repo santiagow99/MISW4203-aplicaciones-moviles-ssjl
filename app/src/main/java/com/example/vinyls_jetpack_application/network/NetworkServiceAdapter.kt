@@ -169,9 +169,9 @@ class NetworkServiceAdapter constructor(context: Context) {
     }
 
     fun addAlbumToMusician(
-        artistId: Int,
-        albumId: Int,
-        onComplete: (resp: JSONObject) -> Unit,
+        artistId: Int?,
+        albumId: Int?,
+        onComplete: (resp: String) -> Unit,
         onError: (error: VolleyError) -> Unit
     ) {
         requestQueue.add(
@@ -180,7 +180,7 @@ class NetworkServiceAdapter constructor(context: Context) {
                 JSONObject(),
                 Response.Listener<JSONObject> { response ->
                     Log.d("Response Add Album",response.toString())
-                    onComplete(response)
+                    onComplete(response.toString())
                 }
             ) {
                 onError(it)

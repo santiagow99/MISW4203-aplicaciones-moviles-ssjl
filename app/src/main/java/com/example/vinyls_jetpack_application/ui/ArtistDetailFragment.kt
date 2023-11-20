@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -21,11 +23,12 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.vinyls_jetpack_application.R
 import com.example.vinyls_jetpack_application.databinding.ArtistDetailFragmentBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class ArtistDetailFragment : Fragment() {
+class ArtistDetailFragment : Fragment(){
 
     private lateinit var viewModel: ArtistDetailViewModel
     private var _binding: ArtistDetailFragmentBinding? = null
@@ -36,6 +39,16 @@ class ArtistDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = ArtistDetailFragmentBinding.inflate(inflater, container, false)
+        val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+        val fab: FloatingActionButton = binding.root.findViewById(R.id.floatingActionButton2)
+        val args = ArtistDetailFragmentArgs.fromBundle(requireArguments())
+        val artistId = args.artistId
+        fab.setOnClickListener{
+            val bundle = Bundle().apply {
+                putInt("artistId", artistId)
+            }
+            navController.navigate(R.id.action_artistDetailFragment_to_addAlbumArtistFragment, bundle)
+        }
         return binding.root
     }
 

@@ -39,12 +39,6 @@ class ArtistsAdapter : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>() {
 
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
         holder.bind(artists[position])
-        holder.viewDataBinding.albumCoverImageView.setOnClickListener {
-            val intent = Intent(holder.itemView.context, AlbumDetailActivity::class.java)
-            val album = albums[position]
-            intent.putExtra("albumId", album.albumId)
-            holder.itemView.context.startActivity(intent)
-        }
     }
 
     override fun getItemCount(): Int {

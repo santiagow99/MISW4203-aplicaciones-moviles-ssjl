@@ -9,29 +9,47 @@
             name="album"
             type="com.example.vinyls_jetpack_application.models.Album" />
     </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <EditText
-            android:id="@+id/searchEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Search by album name"
-            android:layout_marginTop="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-        />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/albumCarouselRv"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="MissingConstraints" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/searchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:hint="Search by album name"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/albumCarouselRv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/searchEditText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+            </LinearLayout>
+            <Button
+                android:id="@+id/button_add_album"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="150dp"
+                android:text="Asociar 'album"
+                android:layout_marginHorizontal="50dp"
+                android:backgroundTint="@color/black"
+                android:textColor="@color/white"
+                android:clickable="true"
+                ></Button>
+        </LinearLayout>
 </layout>
