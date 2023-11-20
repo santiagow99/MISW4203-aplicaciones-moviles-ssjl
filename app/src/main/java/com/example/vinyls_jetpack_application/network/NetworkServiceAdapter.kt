@@ -171,13 +171,6 @@ class NetworkServiceAdapter constructor(context: Context) {
                 })
         )
     }
-    private fun getRequest(
-        path: String,
-        responseListener: Response.Listener<String>,
-        errorListener: Response.ErrorListener
-    ): StringRequest {
-        return StringRequest(Request.Method.GET, BASE_URL + path, responseListener, errorListener)
-    }
 
     fun addAlbumToMusician(
         artistId: Int?,
@@ -197,6 +190,23 @@ class NetworkServiceAdapter constructor(context: Context) {
                 onError(it)
             }
         )
+    }
+
+    private fun getRequest(
+        path: String,
+        responseListener: Response.Listener<String>,
+        errorListener: Response.ErrorListener
+    ): StringRequest {
+        return StringRequest(Request.Method.GET, BASE_URL + path, responseListener, errorListener)
+    }
+
+    private fun postRequest(
+        path: String,
+        body: JSONObject,
+        responseListener: Response.Listener<JSONObject>,
+        errorListener: Response.ErrorListener
+    ): JsonObjectRequest {
+        return JsonObjectRequest(Request.Method.POST, BASE_URL + path, body, responseListener, errorListener)
     }
 
     private fun putRequest(
