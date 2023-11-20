@@ -35,7 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:imageUrl="@{artist.image}" />
+                app:imageUrl="@{artist.image}"
+                android:contentDescription="Imagen propia" />
 
         </androidx.cardview.widget.CardView>
 

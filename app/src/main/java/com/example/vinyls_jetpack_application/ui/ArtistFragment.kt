@@ -1,8 +1,6 @@
 package com.example.vinyls_jetpack_application.ui
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,13 +30,11 @@ class ArtistFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = ArtistFragmentBinding.inflate(inflater, container, false)
-        val view = binding.root
-        viewModelAdapter = ArtistsAdapter()
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recyclerView = view.findViewById(R.id.artistRecyclerView)
+        recyclerView = binding.artistRecyclerView
 
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = layoutManager
@@ -46,23 +42,25 @@ class ArtistFragment : Fragment() {
         val pagerSnapHelper = PagerSnapHelper()
         pagerSnapHelper.attachToRecyclerView(recyclerView)
 
+        viewModelAdapter = ArtistsAdapter()
         recyclerView.adapter = viewModelAdapter
 
         // Set up item click listener
         viewModelAdapter?.onItemClick = { artist ->
-            val action = ArtistFragmentDirections.actionArtistFragmentToArtistDetailFragment(artist.artistId)
+            val action =
+                ArtistFragmentDirections.actionArtistFragmentToArtistDetailFragment(artist.artistId)
             findNavController().navigate(action)
         }
     }
 
-    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onActivityCreated()"
         }
         activity.actionBar?.title = getString(R.string.title_artists)
-        viewModel = ViewModelProvider(this, ArtistViewModel.Factory(activity.application))[ArtistViewModel::class.java]
+        viewModel =
+            ViewModelProvider(this, ArtistViewModel.Factory(activity.application))[ArtistViewModel::class.java]
 
         viewModel.artists.observe(viewLifecycleOwner) { artists ->
             viewModelAdapter?.artists = artists

@@ -1,6 +1,6 @@
 package com.example.vinyls_jetpack_application.ui
 
-import ArtistDetailViewModel
+import com.example.vinyls_jetpack_application.viewmodels.ArtistDetailViewModel
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
@@ -10,7 +10,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -26,6 +25,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class ArtistDetailFragment : Fragment(){
@@ -64,33 +64,37 @@ class ArtistDetailFragment : Fragment(){
         viewModel.getArtistById(args.artistId)
 
         viewModel.selectedArtist.observe(viewLifecycleOwner) { artist ->
-            binding.artistDetailNameTextView.text = artist.name
-            Glide.with(requireContext())
-                .load(artist.image)
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.artistDetailImageView)
+            with(binding) {
+                artistDetailNameTextView.text = artist.name
+                Glide.with(requireContext())
+                    .load(artist.image)
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(artistDetailImageView)
 
-            val descriptionTextView = binding.artistDetailDescriptionTextView
-            val formattedDescriptionText = SpannableString("Descripción: ${artist.description}")
-            formattedDescriptionText.setSpan(
-                StyleSpan(Typeface.BOLD),
-                0,
-                12,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            descriptionTextView.text = formattedDescriptionText
+                val descriptionTextView = artistDetailDescriptionTextView
+                val formattedDescriptionText =
+                    SpannableString("Descripción: ${artist.description}")
+                formattedDescriptionText.setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    0,
+                    12,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                descriptionTextView.text = formattedDescriptionText
 
-            val birthDateTextView = binding.artistDetailBirthdateTextView
-            val formattedbirthDateText = SpannableString("Fecha de nacimiento: ${formatBirthDate(artist.birthDate)}")
-            formattedbirthDateText.setSpan(
-                StyleSpan(Typeface.BOLD),
-                0,
-                20,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
+                val birthDateTextView = artistDetailBirthdateTextView
+                val formattedbirthDateText =
+                    SpannableString("Fecha de nacimiento: ${formatBirthDate(artist.birthDate)}")
+                formattedbirthDateText.setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    0,
+                    20,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
 
-            birthDateTextView.text = formattedbirthDateText
+                birthDateTextView.text = formattedbirthDateText
+            }
         }
     }
 
@@ -100,14 +104,14 @@ class ArtistDetailFragment : Fragment(){
 
         return try {
             val date = inputFormat.parse(inputDate)
-            outputFormat.format(date)
+            outputFormat.format(date as Date)
         } catch (e: ParseException) {
             e.printStackTrace()
             inputDate
         }
     }
 
-
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val activity = requireNotNull(this.activity) {
@@ -120,7 +124,8 @@ class ArtistDetailFragment : Fragment(){
             if (destination.id == R.id.artistDetailFragment) {
                 activity.findViewById<BottomNavigationView>(R.id.bottom_nav)?.visibility = View.GONE
             } else {
-                activity.findViewById<BottomNavigationView>(R.id.bottom_nav)?.visibility = View.VISIBLE
+                activity.findViewById<BottomNavigationView>(R.id.bottom_nav)?.visibility =
+                    View.VISIBLE
             }
         }
     }
