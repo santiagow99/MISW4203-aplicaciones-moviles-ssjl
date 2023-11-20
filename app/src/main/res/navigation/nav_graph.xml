@@ -23,10 +23,21 @@
         android:id="@+id/artistDetailFragment"
         android:name="com.example.vinyls_jetpack_application.ui.ArtistDetailFragment"
         android:label="Artista">
-
+        <action
+            android:id="@+id/action_artistDetailFragment_to_addAlbumArtistFragment"
+            app:destination="@id/addAlbumArtistFragment" />
         <argument
             android:name="artistId"
             app:argType="integer" />
     </fragment>
 
+    <fragment
+        android:id="@+id/addAlbumArtistFragment"
+        android:name="com.example.vinyls_jetpack_application.ui.AddAlbumArtistFragment"
+        android:label="Asociar Album">
+
+        <argument
+            android:name="artistId"
+            app:argType="integer" />
+    </fragment>
 </navigation>
