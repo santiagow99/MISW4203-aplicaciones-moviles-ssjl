@@ -7,7 +7,6 @@ public class BindingAdapters {
 
     @BindingAdapter("imageUrl")
     public static void loadImage(ImageView view, String imageUrl) {
-        // Use Glide to load the image from the provided URL and set it to the ImageView
         Glide.with(view.getContext())
                 .load(imageUrl)
                 .into(view);

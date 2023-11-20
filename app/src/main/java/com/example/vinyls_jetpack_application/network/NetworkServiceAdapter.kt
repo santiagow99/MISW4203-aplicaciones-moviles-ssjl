@@ -11,6 +11,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.vinyls_jetpack_application.models.Album
 import com.example.vinyls_jetpack_application.models.AlbumDetail
+import com.example.vinyls_jetpack_application.models.Artist
 import com.example.vinyls_jetpack_application.models.Collector
 import com.example.vinyls_jetpack_application.models.Track
 import com.google.gson.Gson
@@ -18,9 +19,12 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class NetworkServiceAdapter constructor(context: Context) {
-    companion object{
-        const val BASE_URL= "https://vynils-back-heroku.herokuapp.com/"
+    private val cacheManager = CacheManager.getInstance(context)
+
+    companion object {
+        const val BASE_URL = "https://vynils-back-heroku.herokuapp.com/"
         private var instance: NetworkServiceAdapter? = null
+
         fun getInstance(context: Context) =
             instance ?: synchronized(this) {
                 instance ?: NetworkServiceAdapter(context).also {
@@ -28,60 +32,53 @@ class NetworkServiceAdapter constructor(context: Context) {
                 }
             }
     }
+
     private val requestQueue: RequestQueue by lazy {
-        // applicationContext keeps you from leaking the Activity or BroadcastReceiver if someone passes one in.
         Volley.newRequestQueue(context.applicationContext)
     }
-    fun getAlbums(onComplete:(resp:List<Album>)->Unit, onError: (error:VolleyError)->Unit){
-        val gson = Gson()
-        requestQueue.add(getRequest("albums",
-            { response ->
-                val resp = JSONArray(response)
-                val list = mutableListOf<Album>()
-                for (i in 0 until resp.length()) {
-                    val item = resp.getJSONObject(i)
-                    Log.e("item album -->", item.toString())
-                    list.add(i, Album(
-                        albumId = item.getInt("id"),
-                        name = item.getString("name"),
-                        cover = item.getString("cover"),
-                        recordLabel = item.getString("recordLabel"),
-                        releaseDate = item.getString("releaseDate"),
-                        genre = item.getString("genre"),
-                        description = item.getString("description"),
-                    ))
-                }
-                onComplete(list)
-            },
-            {
-                onError(it)
-            }))
+
+    fun getAlbums(onComplete: (resp: List<Album>) -> Unit, onError: (error: VolleyError) -> Unit) {
+        cacheManager.getCachedAlbums("albums")?.let { cachedAlbums ->
+            onComplete(cachedAlbums)
+            return
+        }
+
+        requestQueue.add(
+            getRequest(
+                "albums",
+                { response ->
+                    val list = parseAlbumsResponse(response)
+                    cacheManager.setCachedAlbums("albums", list)
+                    onComplete(list)
+                },
+                { onError(it) })
+        )
     }
-    fun getCollectors(onComplete:(resp:List<Collector>)->Unit, onError: (error:VolleyError)->Unit) {
-        requestQueue.add(getRequest("collectors",
-            { response ->
-                Log.d("tagb", response)
-                val resp = JSONArray(response)
-                val list = mutableListOf<Collector>()
-                for (i in 0 until resp.length()) {
-                    val item = resp.getJSONObject(i)
-                    list.add(i, Collector(collectorId = item.getInt("id"),name = item.getString("name"), telephone = item.getString("telephone"), email = item.getString("email")))
-                }
-                onComplete(list)
-            },
-            {
-                onError(it)
-                Log.d("", it.message.toString())
-            }))
+
+    fun getCollectors(onComplete: (resp: List<Collector>) -> Unit, onError: (error: VolleyError) -> Unit) {
+        requestQueue.add(
+            getRequest(
+                "collectors",
+                { response ->
+                    val list = parseCollectorsResponse(response)
+                    onComplete(list)
+                },
+                {
+                    onError(it)
+                    Log.d("", it.message.toString())
+                })
+        )
     }
+
     fun getAlbum(albumId:Int, onComplete:(resp: AlbumDetail)->Unit, onError: (error:VolleyError)->Unit) {
         requestQueue.add(getRequest("albums/$albumId",
-            Response.Listener<String> { response ->
+            { response ->
                 val resp = JSONObject(response)
                 val tracks = resp.getJSONArray("tracks")
                 val tracksList = mutableListOf<Track>()
+                var item:JSONObject?
                 for (i in 0 until tracks.length()) {
-                    val item = tracks.getJSONObject(i)
+                    item = tracks.getJSONObject(i)
                     tracksList.add(
                         Track(i,
                             name = item.getString("name"),
@@ -104,16 +101,150 @@ class NetworkServiceAdapter constructor(context: Context) {
             {
                 onError(it)
             }))
+
+    }
+    fun getArtists(
+        onComplete: (resp: List<Artist>) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        cacheManager.getCachedArtists("artists")?.let { cachedArtists ->
+            onComplete(cachedArtists)
+            return
+        }
+        requestQueue.add(
+            getRequest(
+                "musicians",
+                { response ->
+                    val resp = JSONArray(response)
+                    val list = mutableListOf<Artist>()
+                    var item:JSONObject?
+                    for (i in 0 until resp.length()) {
+                        item = resp.getJSONObject(i)
+                        list.add(
+                            Artist(
+                                artistId = item.getInt("id"),
+                                name = item.getString("name"),
+                                image = item.getString("image"),
+                                description = item.getString("description"),
+                                birthDate = item.getString("birthDate"),
+                                albums = emptyList(),
+                                performerPrizes = emptyList()
+                            )
+                        )
+                    }
+                    cacheManager.setCachedArtists("artists", list)
+                    onComplete(list)
+                },
+                {
+                    onError(it)
+                })
+        )
     }
 
+    fun getArtist(
+        artistId: Int,
+        onComplete: (resp: Artist) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        cacheManager.getCachedArtists("artists")?.find { it.artistId == artistId }?.let { cachedArtist ->
+            onComplete(cachedArtist)
+            return
+        }
+        requestQueue.add(
+            getRequest(
+                "musicians/$artistId",
+                { response ->
+                    val resp = JSONObject(response)
+                    val artist = Artist(
+                        artistId = resp.getInt("id"),
+                        name = resp.getString("name"),
+                        image = resp.getString("image"),
+                        description = resp.getString("description"),
+                        birthDate = resp.getString("birthDate"),
+                        albums = emptyList(),
+                        performerPrizes = emptyList()
+                    )
+                    onComplete(artist)
+                },
+                {
+                    onError(it)
+                })
+        )
+    }
 
-    private fun getRequest(path:String, responseListener: Response.Listener<String>, errorListener: Response.ErrorListener): StringRequest {
-        return StringRequest(Request.Method.GET, BASE_URL+path, responseListener,errorListener)
+    fun addAlbumToMusician(
+        artistId: Int?,
+        albumId: Int?,
+        onComplete: (resp: String) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        requestQueue.add(
+            postRequest(
+                "musicians/$artistId/albums/$albumId",
+                JSONObject(),
+                Response.Listener<JSONObject> { response ->
+                    Log.d("Response Add Album",response.toString())
+                    onComplete(response.toString())
+                }
+            ) {
+                onError(it)
+            }
+        )
     }
-    private fun postRequest(path: String, body: JSONObject,  responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener ):JsonObjectRequest{
-        return  JsonObjectRequest(Request.Method.POST, BASE_URL+path, body, responseListener, errorListener)
+
+    private fun getRequest(
+        path: String,
+        responseListener: Response.Listener<String>,
+        errorListener: Response.ErrorListener
+    ): StringRequest {
+        return StringRequest(Request.Method.GET, BASE_URL + path, responseListener, errorListener)
     }
-    private fun putRequest(path: String, body: JSONObject,  responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener ):JsonObjectRequest{
-        return  JsonObjectRequest(Request.Method.PUT, BASE_URL+path, body, responseListener, errorListener)
+
+    private fun postRequest(
+        path: String,
+        body: JSONObject,
+        responseListener: Response.Listener<JSONObject>,
+        errorListener: Response.ErrorListener
+    ): JsonObjectRequest {
+        return JsonObjectRequest(Request.Method.POST, BASE_URL + path, body, responseListener, errorListener)
+    }
+
+    private fun putRequest(
+        path: String,
+        body: JSONObject,
+        responseListener: Response.Listener<JSONObject>,
+        errorListener: Response.ErrorListener
+    ): JsonObjectRequest {
+        return JsonObjectRequest(Request.Method.PUT, BASE_URL + path, body, responseListener, errorListener)
+    }
+
+    private fun parseAlbumsResponse(response: String): List<Album> {
+        val resp = JSONArray(response)
+        return List(resp.length()) { i ->
+            val item = resp.getJSONObject(i)
+            Log.e("item album -->", item.toString())
+            Album(
+                albumId = item.getInt("id"),
+                name = item.getString("name"),
+                cover = item.getString("cover"),
+                recordLabel = item.getString("recordLabel"),
+                releaseDate = item.getString("releaseDate"),
+                genre = item.getString("genre"),
+                description = item.getString("description")
+            )
+        }
+    }
+
+    private fun parseCollectorsResponse(response: String): List<Collector> {
+        val resp = JSONArray(response)
+        return List(resp.length()) { i ->
+            val item = resp.getJSONObject(i)
+            Collector(
+                collectorId = item.getInt("id"),
+                name = item.getString("name"),
+                telephone = item.getString("telephone"),
+                email = item.getString("email")
+            )
+        }
     }
 }
