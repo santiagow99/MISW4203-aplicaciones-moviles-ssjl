@@ -17,10 +17,14 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.vinyls_jetpack_application.R
 import com.example.vinyls_jetpack_application.databinding.ArtistDetailFragmentBinding
+import com.example.vinyls_jetpack_application.ui.adapters.ArtistDetailAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.ParseException
@@ -33,6 +37,8 @@ class ArtistDetailFragment : Fragment(){
     private lateinit var viewModel: ArtistDetailViewModel
     private var _binding: ArtistDetailFragmentBinding? = null
     private val binding get() = _binding!!
+    private lateinit var recyclerView: RecyclerView
+    private val viewModelAdapter: ArtistDetailAdapter by lazy { ArtistDetailAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +60,14 @@ class ArtistDetailFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        recyclerView = view.findViewById(R.id.albumCarouselRv)
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = layoutManager
+
+        var pagerSnapHelper = PagerSnapHelper()
+        pagerSnapHelper.attachToRecyclerView(recyclerView)
+
+        recyclerView.adapter = viewModelAdapter
 
         viewModel = ViewModelProvider(
             this,
@@ -95,6 +109,9 @@ class ArtistDetailFragment : Fragment(){
 
                 birthDateTextView.text = formattedbirthDateText
             }
+        }
+        viewModel.selectedArtist.observe(viewLifecycleOwner) { artist ->
+            viewModelAdapter.albums = artist.albums
         }
     }
 
