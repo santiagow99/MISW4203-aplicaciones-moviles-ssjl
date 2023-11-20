@@ -14,7 +14,6 @@ import com.example.vinyls_jetpack_application.models.AlbumDetail
 import com.example.vinyls_jetpack_application.models.Artist
 import com.example.vinyls_jetpack_application.models.Collector
 import com.example.vinyls_jetpack_application.models.Track
-import com.google.gson.Gson
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -120,6 +119,22 @@ class NetworkServiceAdapter constructor(context: Context) {
                     var item:JSONObject?
                     for (i in 0 until resp.length()) {
                         item = resp.getJSONObject(i)
+                        val albums = mutableListOf<Album>()
+                        val albumsList = item.getJSONArray("albums")
+                        for (i in 0 until albumsList.length()) {
+                            val albumObject = albumsList.getJSONObject(i)
+                            albums.add(
+                                Album(
+                                    albumId = albumObject.getInt("id"),
+                                    name = albumObject.getString("name"),
+                                    cover = albumObject.getString("cover"),
+                                    releaseDate = albumObject.getString("releaseDate"),
+                                    description = albumObject.getString("description"),
+                                    genre = albumObject.getString("genre"),
+                                    recordLabel = albumObject.getString("recordLabel")
+                                )
+                            )
+                        }
                         list.add(
                             Artist(
                                 artistId = item.getInt("id"),
@@ -127,7 +142,7 @@ class NetworkServiceAdapter constructor(context: Context) {
                                 image = item.getString("image"),
                                 description = item.getString("description"),
                                 birthDate = item.getString("birthDate"),
-                                albums = emptyList(),
+                                albums = albums,
                                 performerPrizes = emptyList()
                             )
                         )
@@ -146,7 +161,12 @@ class NetworkServiceAdapter constructor(context: Context) {
         onComplete: (resp: Artist) -> Unit,
         onError: (error: VolleyError) -> Unit
     ) {
-        cacheManager.getCachedArtists("artists")?.find { it.artistId == artistId }?.let { cachedArtist ->
+        Log.d("Artists", artistId.toString())
+        val cachedArtists = cacheManager.getCachedArtists("artists")
+        cachedArtists?.find {
+            it.artistId == artistId
+        }?.let{ cachedArtist ->
+            Log.d("Cache", "Manager")
             onComplete(cachedArtist)
             return
         }
@@ -155,6 +175,8 @@ class NetworkServiceAdapter constructor(context: Context) {
                 "musicians/$artistId",
                 { response ->
                     val resp = JSONObject(response)
+                    Log.d("Artists", resp.toString())
+                    val list = mutableListOf<Album>()
                     val artist = Artist(
                         artistId = resp.getInt("id"),
                         name = resp.getString("name"),
