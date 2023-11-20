@@ -1,6 +1,7 @@
 package com.example.vinyls_jetpack_application.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,6 +26,7 @@ class ArtistDetailViewModel(application: Application) : AndroidViewModel(applica
     fun getArtistById(artistId: Int) {
         artistRepository.getArtistById(artistId,
             { artist ->
+                Log.d("view model artist", artist.albums.toString())
                 _selectedArtist.postValue(artist)
             },
             {
