@@ -7,15 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vinyls_jetpack_application.databinding.AlbumDetailItemBinding
-import com.example.vinyls_jetpack_application.models.Album
 import com.example.vinyls_jetpack_application.viewmodels.AlbumDetailViewModel
 import com.example.vinyls_jetpack_application.R
-import com.example.vinyls_jetpack_application.databinding.AlbumDetailTrackItemBinding
-import com.example.vinyls_jetpack_application.models.AlbumDetail
 import com.example.vinyls_jetpack_application.ui.adapters.AlbumDetailTrackAdapter
 
 class AlbumDetailFragment: Fragment()  {
@@ -29,7 +25,7 @@ class AlbumDetailFragment: Fragment()  {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         Log.d("onCreateView -->","0")
         _binding = AlbumDetailItemBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -42,6 +38,7 @@ class AlbumDetailFragment: Fragment()  {
         recyclerView.adapter = viewModelAdapter
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val activity = requireNotNull(this.activity) {
@@ -49,16 +46,16 @@ class AlbumDetailFragment: Fragment()  {
         }
         val albumId = (getActivity() as AlbumDetailActivity?)?.getAlbumId() ?: 0
         Log.d("onActivityCreated -->","0")
-        viewModel = ViewModelProvider(this, AlbumDetailViewModel.Factory(activity.application, albumId)).get(
-            AlbumDetailViewModel::class.java)
-        viewModel.albumDetails.observe(viewLifecycleOwner, Observer<AlbumDetail> { album ->
+        viewModel =
+            ViewModelProvider(this, AlbumDetailViewModel.Factory(activity.application, albumId))[AlbumDetailViewModel::class.java]
+        viewModel.albumDetails.observe(viewLifecycleOwner) { album ->
             Log.d("albumDetails -->", album.name)
             binding.albumDetail = album
             viewModelAdapter?.tracks = album.tracks
-        })
-        viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
+        }
+        viewModel.eventNetworkError.observe(viewLifecycleOwner) { isNetworkError ->
             if (isNetworkError) onNetworkError()
-        })
+        }
     }
 
     override fun onDestroyView() {
