@@ -1,13 +1,15 @@
-package com.example.vinyls_jetpack_application.viewmodels
-
 import android.app.Application
 import androidx.lifecycle.*
+import com.android.volley.VolleyError
 import com.example.vinyls_jetpack_application.models.Album
 import com.example.vinyls_jetpack_application.repositories.AlbumRepository
+import com.example.vinyls_jetpack_application.network.NetworkServiceAdapter
+import org.json.JSONObject
 
-class AlbumViewModel(application: Application) :  AndroidViewModel(application) {
+class AlbumViewModel(application: Application) : AndroidViewModel(application) {
 
     private val albumsRepository = AlbumRepository(application)
+    private val networkServiceAdapter = NetworkServiceAdapter.getInstance(application)
 
     private val _albums = MutableLiveData<List<Album>>()
 
@@ -63,5 +65,30 @@ class AlbumViewModel(application: Application) :  AndroidViewModel(application) 
             val filteredAlbums = originalAlbums.filter { it.name.contains(query, ignoreCase = true) }
             _albums.postValue(filteredAlbums)
         }
+    }
+
+    fun saveAlbum(album: Album, onComplete: () -> Unit, onError: (VolleyError) -> Unit) {
+        networkServiceAdapter.postRequest(
+            "albums",
+            albumToJsonObject(album),
+            { response ->
+                onComplete.invoke()
+            },
+            { error ->
+                onError.invoke(error)
+            }
+        )
+    }
+
+    private fun albumToJsonObject(album: Album): JSONObject {
+        val jsonObject = JSONObject()
+        jsonObject.put("albumId", album.albumId)
+        jsonObject.put("name", album.name)
+        jsonObject.put("cover", album.cover)
+        jsonObject.put("releaseDate", album.releaseDate)
+        jsonObject.put("description", album.description)
+        jsonObject.put("genre", album.genre)
+        jsonObject.put("recordLabel", album.recordLabel)
+        return jsonObject
     }
 }

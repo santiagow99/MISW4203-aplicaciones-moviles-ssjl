@@ -1,5 +1,6 @@
 package com.example.vinyls_jetpack_application.ui
 
+import AlbumViewModel
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.vinyls_jetpack_application.R
 import com.example.vinyls_jetpack_application.databinding.AlbumFragmentBinding
 import com.example.vinyls_jetpack_application.ui.adapters.AlbumsAdapter
-import com.example.vinyls_jetpack_application.viewmodels.AlbumViewModel
 
 class AlbumFragment : Fragment() {
     private var _binding: AlbumFragmentBinding? = null
@@ -53,8 +53,7 @@ class AlbumFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val activity = requireActivity()
         activity.actionBar?.title = getString(R.string.title_albums)
-        viewModel =
-            ViewModelProvider(this, AlbumViewModel.Factory(activity.application))[AlbumViewModel::class.java]
+        viewModel = ViewModelProvider(this, AlbumViewModel.Factory(activity.application)).get(AlbumViewModel::class.java)
 
         viewModel.albums.observe(viewLifecycleOwner) { albums ->
             viewModelAdapter.albums = albums

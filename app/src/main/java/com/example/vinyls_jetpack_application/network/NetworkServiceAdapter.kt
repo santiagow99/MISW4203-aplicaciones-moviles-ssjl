@@ -222,7 +222,7 @@ class NetworkServiceAdapter constructor(context: Context) {
         return StringRequest(Request.Method.GET, BASE_URL + path, responseListener, errorListener)
     }
 
-    private fun postRequest(
+    internal fun postRequest(
         path: String,
         body: JSONObject,
         responseListener: Response.Listener<JSONObject>,
