@@ -3,10 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_album_detail_fragment"
     app:startDestination="@id/albumFragment">
+
     <fragment
         android:id="@+id/albumFragment"
         android:name="com.example.vinyls_jetpack_application.ui.AlbumFragment"
         android:label="Álbumes" >
+
+        <action
+            android:id="@+id/action_albumFragment_to_addAlbumFragment"
+            app:destination="@id/addAlbumFragment" />
     </fragment>
 
     <fragment
@@ -23,9 +28,11 @@
         android:id="@+id/artistDetailFragment"
         android:name="com.example.vinyls_jetpack_application.ui.ArtistDetailFragment"
         android:label="Artista">
+
         <action
             android:id="@+id/action_artistDetailFragment_to_addAlbumArtistFragment"
             app:destination="@id/addAlbumArtistFragment" />
+
         <argument
             android:name="artistId"
             app:argType="integer" />
@@ -40,4 +47,9 @@
             android:name="artistId"
             app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/addAlbumFragment"
+        android:name="com.example.vinyls_jetpack_application.ui.AddAlbumFragment"
+        android:label="Agregar Álbum" />
 </navigation>
