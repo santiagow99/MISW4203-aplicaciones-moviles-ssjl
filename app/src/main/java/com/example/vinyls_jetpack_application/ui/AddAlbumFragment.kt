@@ -4,6 +4,7 @@ import AddAlbumViewModel
 import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +43,7 @@ class AddAlbumFragment : Fragment() {
 
         nameEditText = binding.editTextName
         coverEditText = binding.editTextCover
-        editTextReleaseDate = binding.editTextReleaseDate  // Cambié la asignación a editTextReleaseDate
+        editTextReleaseDate = binding.editTextReleaseDate
         descriptionEditText = binding.editTextDescription
         genreEditText = binding.editTextGenre
         recordLabelEditText = binding.editTextRecordLabel
@@ -54,6 +55,7 @@ class AddAlbumFragment : Fragment() {
             showDatePicker()
         }
         saveButton.setOnClickListener {
+            Log.d("SaveButton", "Save button clicked")
             saveAlbum()
         }
 
@@ -79,8 +81,12 @@ class AddAlbumFragment : Fragment() {
         )
 
         datePickerDialog.show()
-        datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setBackgroundColor(Color.GREEN)
-        datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setBackgroundColor(Color.GREEN)
+        datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE)?.let { button ->
+            button.setBackgroundColor(Color.parseColor("#FF9800"))
+        }
+        datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE)?.let { button ->
+            button.setBackgroundColor(Color.parseColor("#FF9800"))
+        }
     }
 
     private fun saveAlbum() {
