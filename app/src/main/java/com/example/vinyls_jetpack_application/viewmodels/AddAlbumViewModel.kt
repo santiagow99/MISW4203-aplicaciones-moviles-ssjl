@@ -20,20 +20,31 @@ class AddAlbumViewModel(application: Application) : AndroidViewModel(application
         onComplete: () -> Unit,
         onError: (VolleyError) -> Unit
     ) {
-        networkServiceAdapter.postRequest(
-            "albums",
-            albumToJsonObject(album),
-            { response ->
-                Log.d("SaveAlbum", "Server Response: $response")
+        networkServiceAdapter.addAlbum(
+            album,
+            onComplete = {
+                Log.d("SaveAlbum", "Server Response: $it")
                 onComplete.invoke()
             },
-            { error ->
+            onError = { error ->
                 Log.e("SaveAlbum", "Error saving album: ${error.message}", error)
                 onError.invoke(error)
             }
         )
     }
-
+    fun getUpdatedAlbums(
+        onComplete: (List<Album>) -> Unit,
+        onError: (VolleyError) -> Unit
+    ) {
+        networkServiceAdapter.getAlbums(
+            onComplete = {
+                onComplete(it)
+            },
+            onError = {
+                onError(it)
+            }
+        )
+    }
     private fun albumToJsonObject(album: Album): JSONObject {
         val jsonObject = JSONObject()
         jsonObject.put("name", album.name)

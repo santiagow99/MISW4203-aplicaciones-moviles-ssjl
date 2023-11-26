@@ -8,30 +8,31 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
-import com.example.vinyls_jetpack_application.R
+import androidx.navigation.fragment.findNavController
 import com.example.vinyls_jetpack_application.databinding.AddAlbumFragmentBinding
 import com.example.vinyls_jetpack_application.models.Album
 import java.util.Calendar
 
 class AddAlbumFragment : Fragment() {
-    val selectedCalendar = Calendar.getInstance()
+    private val selectedCalendar = Calendar.getInstance()
     private lateinit var viewModel: AddAlbumViewModel
     private var _binding: AddAlbumFragmentBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var nameEditText: EditText
     private lateinit var coverEditText: EditText
     private lateinit var editTextReleaseDate: EditText
     private lateinit var descriptionEditText: EditText
-    private lateinit var genreEditText: EditText
-    private lateinit var recordLabelEditText: EditText
+    private lateinit var spinnerGenre: Spinner
+    private lateinit var spinnerRecordLabel: Spinner
     private lateinit var saveButton: Button
 
     override fun onCreateView(
@@ -45,8 +46,8 @@ class AddAlbumFragment : Fragment() {
         coverEditText = binding.editTextCover
         editTextReleaseDate = binding.editTextReleaseDate
         descriptionEditText = binding.editTextDescription
-        genreEditText = binding.editTextGenre
-        recordLabelEditText = binding.editTextRecordLabel
+        spinnerGenre = binding.editTextGenre
+        spinnerRecordLabel = binding.editTextRecordLabel
         saveButton = binding.saveButton
 
         val calendar = Calendar.getInstance()
@@ -58,6 +59,20 @@ class AddAlbumFragment : Fragment() {
             Log.d("SaveButton", "Save button clicked")
             saveAlbum()
         }
+
+         val genreOptions = arrayOf("Classical", "Salsa", "Rock", "Folk")
+        val recordLabelOptions = arrayOf("Sony Music", "EMI", "Discos Fuentes", "Elektra", "Fania Records")
+
+        val genreAdapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, genreOptions)
+        val recordLabelAdapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, recordLabelOptions)
+
+        genreAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        recordLabelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spinnerGenre.adapter = genreAdapter
+        spinnerRecordLabel.adapter = recordLabelAdapter
 
         return binding.root
     }
@@ -95,8 +110,17 @@ class AddAlbumFragment : Fragment() {
         val cover = coverEditText.text.toString()
         val releaseDate = editTextReleaseDate.text.toString()
         val description = descriptionEditText.text.toString()
-        val genre = genreEditText.text.toString()
-        val recordLabel = recordLabelEditText.text.toString()
+        val genre = spinnerGenre.selectedItem.toString()
+        val recordLabel = spinnerRecordLabel.selectedItem.toString()
+
+        if (name.isBlank() || cover.isBlank() || releaseDate.isBlank() || description.isBlank() || genre.isBlank() || recordLabel.isBlank()) {
+            Toast.makeText(
+                requireContext(),
+                "Todos los campos son obligatorios",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
 
         val album = Album(
             albumId = albumId,
@@ -116,6 +140,16 @@ class AddAlbumFragment : Fragment() {
                     "Álbum guardado exitosamente",
                     Toast.LENGTH_SHORT
                 ).show()
+                val action =
+                    AddAlbumFragmentDirections.actionAddAlbumFragmentToAlbumListFragment()
+                findNavController().navigate(action)
+
+                viewModel.getUpdatedAlbums(
+                    onComplete = { updatedAlbums ->
+                    },
+                    onError = { volleyError ->
+                    }
+                )
             },
             onError = { volleyError ->
                 Toast.makeText(

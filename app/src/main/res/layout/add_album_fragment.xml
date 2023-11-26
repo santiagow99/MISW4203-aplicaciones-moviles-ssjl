@@ -36,7 +36,6 @@
             android:hint="Fecha de lanzamiento"
             android:inputType="date" />
 
-
         <EditText
             android:id="@+id/editTextDescription"
             android:layout_width="match_parent"
@@ -46,29 +45,55 @@
             android:hint="Descripción"
             android:inputType="textMultiLine" />
 
-        <EditText
-            android:id="@+id/editTextGenre"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/genreTextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/editTextDescription"
             android:layout_marginTop="8dp"
-            android:hint="Género"
-            android:inputType="text" />
+            app:hintEnabled="false">
 
-        <EditText
-            android:id="@+id/editTextRecordLabel"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Género" />
+
+            <Spinner
+                android:id="@+id/editTextGenre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/recordLabelTextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/editTextGenre"
+            android:layout_below="@id/genreTextInputLayout"
             android:layout_marginTop="8dp"
-            android:hint="Sello discográfico"
-            android:inputType="text" />
+            app:hintEnabled="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sello discográfico"/>
+
+            <Spinner
+                android:id="@+id/editTextRecordLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/editTextRecordLabel"
+            android:layout_below="@id/recordLabelTextInputLayout"
             android:layout_marginTop="16dp"
             android:text="Guardar" />
     </RelativeLayout>

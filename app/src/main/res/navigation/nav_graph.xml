@@ -51,5 +51,9 @@
     <fragment
         android:id="@+id/addAlbumFragment"
         android:name="com.example.vinyls_jetpack_application.ui.AddAlbumFragment"
-        android:label="Agregar Álbum" />
+        android:label="Agregar Álbum" >
+        <action
+            android:id="@+id/action_addAlbumFragment_to_albumListFragment"
+            app:destination="@id/albumFragment" />
+    </fragment>
 </navigation>

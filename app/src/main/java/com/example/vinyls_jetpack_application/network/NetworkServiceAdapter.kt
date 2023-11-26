@@ -214,6 +214,35 @@ class NetworkServiceAdapter constructor(context: Context) {
         )
     }
 
+    fun addAlbum(
+        album: Album,
+        onComplete: (resp: String) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val requestBody = JSONObject().apply {
+            put("name", album.name)
+            put("cover", album.cover)
+            put("releaseDate", album.releaseDate)
+            put("description", album.description)
+            put("genre", album.genre)
+            put("recordLabel", album.recordLabel)
+        }
+
+        requestQueue.add(
+            postRequest(
+                "albums",
+                requestBody,
+                Response.Listener { response ->
+                    Log.d("addAlbum", "Response received: $response")
+                    onComplete(response.toString())
+                },
+                { error ->
+                    Log.e("addAlbum", "Error in adding album: ${error.message}", error)
+                    onError(error)
+                }
+            )
+        )
+    }
     private fun getRequest(
         path: String,
         responseListener: Response.Listener<String>,
@@ -228,7 +257,17 @@ class NetworkServiceAdapter constructor(context: Context) {
         responseListener: Response.Listener<JSONObject>,
         errorListener: Response.ErrorListener
     ): JsonObjectRequest {
-        return JsonObjectRequest(Request.Method.POST, BASE_URL + path, body, responseListener, errorListener)
+        Log.d("postRequest", "Sending POST request to $path with body: $body")
+        return JsonObjectRequest(Request.Method.POST, BASE_URL + path, body,
+            Response.Listener { response ->
+                Log.d("postRequest", "Response received: $response")
+                responseListener.onResponse(response)
+            },
+            { error ->
+                Log.e("postRequest", "Error in POST request: ${error.message}", error)
+                errorListener.onErrorResponse(error)
+            }
+        )
     }
 
     private fun putRequest(
