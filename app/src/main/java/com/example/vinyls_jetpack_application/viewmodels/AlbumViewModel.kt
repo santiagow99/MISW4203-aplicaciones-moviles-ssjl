@@ -1,13 +1,15 @@
-package com.example.vinyls_jetpack_application.viewmodels
-
 import android.app.Application
 import androidx.lifecycle.*
+import com.android.volley.VolleyError
 import com.example.vinyls_jetpack_application.models.Album
 import com.example.vinyls_jetpack_application.repositories.AlbumRepository
+import com.example.vinyls_jetpack_application.network.NetworkServiceAdapter
+import org.json.JSONObject
 
-class AlbumViewModel(application: Application) :  AndroidViewModel(application) {
+class AlbumViewModel(application: Application) : AndroidViewModel(application) {
 
     private val albumsRepository = AlbumRepository(application)
+    private val networkServiceAdapter = NetworkServiceAdapter.getInstance(application)
 
     private val _albums = MutableLiveData<List<Album>>()
 
@@ -64,4 +66,6 @@ class AlbumViewModel(application: Application) :  AndroidViewModel(application) 
             _albums.postValue(filteredAlbums)
         }
     }
+
+
 }
