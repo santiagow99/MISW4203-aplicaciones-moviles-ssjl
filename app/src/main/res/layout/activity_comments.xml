@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lista de Comentarios"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/commentsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@android:color/white"
+        android:scrollbars="vertical" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Agregar Comentario"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/commentDescriptionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Escribe tu comentario"
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:background="@android:color/white"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Campo de texto para la calificación -->
+        <EditText
+            android:id="@+id/commentRatingEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Calificación (0-5)"
+            android:inputType="number"
+            android:background="@android:color/white"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Campo de texto para el ID del coleccionista -->
+        <EditText
+            android:id="@+id/commentCollectorIdEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ID del coleccionista"
+            android:inputType="text"
+            android:background="@android:color/white"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp"
+            android:autofillHints="" />
+
+        <!-- Botón de enviar comentario -->
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enviar"
+            android:layout_gravity="end" />
+    </LinearLayout>
+
+</LinearLayout>

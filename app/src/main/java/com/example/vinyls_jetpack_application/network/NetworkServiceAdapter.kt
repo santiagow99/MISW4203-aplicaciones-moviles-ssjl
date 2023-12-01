@@ -14,6 +14,7 @@ import com.example.vinyls_jetpack_application.models.AlbumDetail
 import com.example.vinyls_jetpack_application.models.Artist
 import com.example.vinyls_jetpack_application.models.Collector
 import com.example.vinyls_jetpack_application.models.Track
+import com.example.vinyls_jetpack_application.models.Comment
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -308,4 +309,68 @@ class NetworkServiceAdapter constructor(context: Context) {
             )
         }
     }
+
+    fun getCommentsForAlbum(
+        albumId: Int,
+        onComplete: (resp: List<Comment>) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        requestQueue.add(
+            getRequest(
+                "albums/$albumId/comments",
+                { response ->
+                    val commentsList = parseCommentsResponse(response)
+                    onComplete(commentsList)
+                },
+                { onError(it) }
+            )
+        )
+    }
+
+    fun addCommentToAlbum(
+        albumId: Int,
+        comment: Comment,
+        onComplete: (resp: String) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val requestBody = JSONObject().apply {
+            put("description", comment.description)
+            put("rating", comment.rating)
+            put("collector", JSONObject().apply {
+                put("id", comment.collectorId)
+            })
+        }
+
+        requestQueue.add(
+            postRequest(
+                "albums/$albumId/comments",
+                requestBody,
+                { response ->
+                    Log.d("addCommentToAlbum", "Response received: $response")
+                    onComplete(response.toString())
+                }
+            ) { error ->
+                Log.e("addCommentToAlbum", "Error adding comment: ${error.message}", error)
+                onError(error)
+            }
+        )
+    }
+
+    private fun parseCommentsResponse(response: String): List<Comment> {
+        val comments = JSONArray(response)
+        val commentsList = mutableListOf<Comment>()
+
+        for (i in 0 until comments.length()) {
+            val item = comments.getJSONObject(i)
+            val comment = Comment(
+                id = item.getString("id"),
+                description = item.getString("description"),
+                rating = item.getInt("rating"),
+                collectorId = item.getJSONObject("collector").getString("id")
+            )
+            commentsList.add(comment)
+        }
+        return commentsList
+    }
+
 }
