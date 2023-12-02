@@ -362,10 +362,16 @@ class NetworkServiceAdapter constructor(context: Context) {
 
         for (i in 0 until comments.length()) {
             val item = comments.getJSONObject(i)
+            val collectorId = if (item.has("collector")) {
+                item.getJSONObject("collector").getString("id")
+            } else {
+                "defaultCollectorId"
+            }
+
             val comment = Comment(
                 description = item.getString("description"),
                 rating = item.getInt("rating"),
-                collectorId = item.getJSONObject("collector").getString("id")
+                collectorId = collectorId
             )
             commentsList.add(comment)
         }
