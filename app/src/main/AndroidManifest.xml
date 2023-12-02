@@ -17,6 +17,9 @@
             android:name=".ui.AlbumDetailActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.CommentActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Vinyls_Jetpack_Application.NoActionBar">

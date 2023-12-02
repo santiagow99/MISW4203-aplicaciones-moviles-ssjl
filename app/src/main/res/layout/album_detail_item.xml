@@ -53,6 +53,7 @@
             </TextView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/commentImageView"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 app:cardCornerRadius="50dp"
@@ -60,6 +61,7 @@
                 android:layout_gravity="center">
 
                 <ImageView
+                    android:id="@+id/commentIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/comment"
