@@ -8,4 +8,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#F6F6F6</color>
     <color name="default_unselected_color">#808080</color> <!-- Adjust this color as needed -->
+    <color name="colorPrimary">#3F51B5</color> <!-- Cambia el código de color según tu preferencia -->
 </resources>
