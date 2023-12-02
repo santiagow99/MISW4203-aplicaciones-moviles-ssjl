@@ -363,7 +363,6 @@ class NetworkServiceAdapter constructor(context: Context) {
         for (i in 0 until comments.length()) {
             val item = comments.getJSONObject(i)
             val comment = Comment(
-                id = item.getString("id"),
                 description = item.getString("description"),
                 rating = item.getInt("rating"),
                 collectorId = item.getJSONObject("collector").getString("id")

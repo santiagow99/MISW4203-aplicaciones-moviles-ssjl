@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.vinyls_jetpack_application.databinding.CommentItemBinding
 import com.example.vinyls_jetpack_application.models.Comment
 
-class CommentAdapter(private val comments: List<Comment>) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
+class CommentAdapter(private val comments: MutableList<Comment>) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -26,5 +26,11 @@ class CommentAdapter(private val comments: List<Comment>) : RecyclerView.Adapter
             binding.comment = comment
             binding.executePendingBindings()
         }
+    }
+
+    fun updateComments(newComments: List<Comment>) {
+        comments.clear()
+        comments.addAll(newComments)
+        notifyDataSetChanged()
     }
 }
