@@ -244,6 +244,32 @@ class NetworkServiceAdapter constructor(context: Context) {
             )
         )
     }
+
+    fun toggleFavoriteAlbum(
+        collectorId: Int,
+        musicianId: Int,
+        onComplete: (resp: String) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val endpoint = "collectors/$collectorId/musicians/$musicianId"
+        val requestBody = JSONObject()
+        Log.d("Network Service", "Entrando a la api network service")
+        requestQueue.add(
+            postRequest(
+                endpoint,
+                requestBody,
+                Response.Listener { response ->
+                    Log.d("toggleFavoriteAlbum", "Response received: $response")
+                    onComplete(response.toString())
+                },
+                { error ->
+                    Log.e("toggleFavoriteAlbum", "Error in toggleFavoriteAlbum: ${error.message}", error)
+                    onError(error)
+                }
+            )
+        )
+    }
+
     private fun getRequest(
         path: String,
         responseListener: Response.Listener<String>,

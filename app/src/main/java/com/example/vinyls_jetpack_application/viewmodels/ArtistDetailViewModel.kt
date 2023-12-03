@@ -8,19 +8,29 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.vinyls_jetpack_application.models.Artist
+import com.example.vinyls_jetpack_application.repositories.AddFavoriteArtistRepository
 import com.example.vinyls_jetpack_application.repositories.ArtistRepository
 
 class ArtistDetailViewModel(application: Application) : AndroidViewModel(application) {
 
     private val artistRepository = ArtistRepository(application)
-
+    private val addFavoriteArtistRepository = AddFavoriteArtistRepository(application)
     private val _selectedArtist = MutableLiveData<Artist>()
+    private val _artistId = MutableLiveData<Int>()
 
     val selectedArtist: LiveData<Artist>
         get() = _selectedArtist
 
+    val artistId: LiveData<Int>
+        get() = _artistId
+
     fun setSelectedArtist(artist: Artist) {
         _selectedArtist.value = artist
+    }
+
+    fun setArtistId(artistId: Int) {
+        Log.d("view model artist 2", artistId.toString())
+        _artistId.value = artistId
     }
 
     fun getArtistById(artistId: Int) {
@@ -32,6 +42,10 @@ class ArtistDetailViewModel(application: Application) : AndroidViewModel(applica
             {
             }
         )
+    }
+
+    fun updateFavorite(collectorId: Int, artistId: Int) {
+        addFavoriteArtistRepository.addFavorite(collectorId, artistId, {}, {})
     }
 
     class Factory(private val app: Application) : ViewModelProvider.Factory {

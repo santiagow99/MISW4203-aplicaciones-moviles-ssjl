@@ -3,6 +3,7 @@ package com.example.vinyls_jetpack_application.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.vinyls_jetpack_application.R
@@ -11,6 +12,7 @@ import com.example.vinyls_jetpack_application.databinding.ActivityAlbumDetailBin
 class AlbumDetailActivity : AppCompatActivity() {
 
     private var albumId: Int = 0
+    private var musicianId: Int = 0
     private val navController by lazy {
         (supportFragmentManager.findFragmentById(R.id.nav_album_detail_fragment) as NavHostFragment).navController
     }

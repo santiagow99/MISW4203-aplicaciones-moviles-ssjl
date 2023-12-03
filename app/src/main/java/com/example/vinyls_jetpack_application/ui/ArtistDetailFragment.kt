@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -39,6 +40,7 @@ class ArtistDetailFragment : Fragment(){
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private val viewModelAdapter: ArtistDetailAdapter by lazy { ArtistDetailAdapter() }
+    private var isFavorite = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +51,12 @@ class ArtistDetailFragment : Fragment(){
         val fab: FloatingActionButton = binding.root.findViewById(R.id.floatingActionButton2)
         val args = ArtistDetailFragmentArgs.fromBundle(requireArguments())
         val artistId = args.artistId
+        val favoriteButton: ImageButton = binding.root.findViewById(R.id.favoriteButton)
+
+        favoriteButton.setOnClickListener {
+            isFavorite = !isFavorite
+            updateFavoriteButtonState()
+        }
         fab.setOnClickListener{
             val bundle = Bundle().apply {
                 putInt("artistId", artistId)
@@ -76,6 +84,7 @@ class ArtistDetailFragment : Fragment(){
 
         val args = ArtistDetailFragmentArgs.fromBundle(requireArguments())
         viewModel.getArtistById(args.artistId)
+        viewModel.setArtistId(args.artistId)
 
         viewModel.selectedArtist.observe(viewLifecycleOwner) { artist ->
             with(binding) {
@@ -113,6 +122,15 @@ class ArtistDetailFragment : Fragment(){
         viewModel.selectedArtist.observe(viewLifecycleOwner) { artist ->
             viewModelAdapter.albums = artist.albums
         }
+    }
+
+
+    private fun updateFavoriteButtonState() {
+        val collectorId = 100
+        val musicianId = viewModel.artistId.value ?: 0
+        val drawableRes = if (isFavorite) R.drawable.favorite else R.drawable.favorite_no_color
+        binding.root.findViewById<ImageButton>(R.id.favoriteButton).setImageResource(drawableRes)
+        viewModel.updateFavorite(collectorId, musicianId)
     }
 
     private fun formatBirthDate(inputDate: String): String {
