@@ -14,6 +14,7 @@ import com.example.vinyls_jetpack_application.models.AlbumDetail
 import com.example.vinyls_jetpack_application.models.Artist
 import com.example.vinyls_jetpack_application.models.Collector
 import com.example.vinyls_jetpack_application.models.Track
+import com.example.vinyls_jetpack_application.models.Comment
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -214,6 +215,61 @@ class NetworkServiceAdapter constructor(context: Context) {
         )
     }
 
+    fun addAlbum(
+        album: Album,
+        onComplete: (resp: String) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val requestBody = JSONObject().apply {
+            put("name", album.name)
+            put("cover", album.cover)
+            put("releaseDate", album.releaseDate)
+            put("description", album.description)
+            put("genre", album.genre)
+            put("recordLabel", album.recordLabel)
+        }
+
+        requestQueue.add(
+            postRequest(
+                "albums",
+                requestBody,
+                Response.Listener { response ->
+                    Log.d("addAlbum", "Response received: $response")
+                    onComplete(response.toString())
+                },
+                { error ->
+                    Log.e("addAlbum", "Error in adding album: ${error.message}", error)
+                    onError(error)
+                }
+            )
+        )
+    }
+
+    fun toggleFavoriteAlbum(
+        collectorId: Int,
+        musicianId: Int,
+        onComplete: (resp: String) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val endpoint = "collectors/$collectorId/musicians/$musicianId"
+        val requestBody = JSONObject()
+        Log.d("Network Service", "Entrando a la api network service")
+        requestQueue.add(
+            postRequest(
+                endpoint,
+                requestBody,
+                Response.Listener { response ->
+                    Log.d("toggleFavoriteAlbum", "Response received: $response")
+                    onComplete(response.toString())
+                },
+                { error ->
+                    Log.e("toggleFavoriteAlbum", "Error in toggleFavoriteAlbum: ${error.message}", error)
+                    onError(error)
+                }
+            )
+        )
+    }
+
     private fun getRequest(
         path: String,
         responseListener: Response.Listener<String>,
@@ -222,13 +278,23 @@ class NetworkServiceAdapter constructor(context: Context) {
         return StringRequest(Request.Method.GET, BASE_URL + path, responseListener, errorListener)
     }
 
-    private fun postRequest(
+    internal fun postRequest(
         path: String,
         body: JSONObject,
         responseListener: Response.Listener<JSONObject>,
         errorListener: Response.ErrorListener
     ): JsonObjectRequest {
-        return JsonObjectRequest(Request.Method.POST, BASE_URL + path, body, responseListener, errorListener)
+        Log.d("postRequest", "Sending POST request to $path with body: $body")
+        return JsonObjectRequest(Request.Method.POST, BASE_URL + path, body,
+            Response.Listener { response ->
+                Log.d("postRequest", "Response received: $response")
+                responseListener.onResponse(response)
+            },
+            { error ->
+                Log.e("postRequest", "Error in POST request: ${error.message}", error)
+                errorListener.onErrorResponse(error)
+            }
+        )
     }
 
     private fun putRequest(
@@ -269,4 +335,73 @@ class NetworkServiceAdapter constructor(context: Context) {
             )
         }
     }
+
+    fun getCommentsForAlbum(
+        albumId: Int,
+        onComplete: (resp: List<Comment>) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        requestQueue.add(
+            getRequest(
+                "albums/$albumId/comments",
+                { response ->
+                    val commentsList = parseCommentsResponse(response)
+                    onComplete(commentsList)
+                },
+                { onError(it) }
+            )
+        )
+    }
+
+    fun addCommentToAlbum(
+        albumId: Int,
+        comment: Comment,
+        onComplete: (resp: String) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val requestBody = JSONObject().apply {
+            put("description", comment.description)
+            put("rating", comment.rating)
+            put("collector", JSONObject().apply {
+                put("id", comment.collectorId)
+            })
+        }
+
+        requestQueue.add(
+            postRequest(
+                "albums/$albumId/comments",
+                requestBody,
+                { response ->
+                    Log.d("addCommentToAlbum", "Response received: $response")
+                    onComplete(response.toString())
+                }
+            ) { error ->
+                Log.e("addCommentToAlbum", "Error adding comment: ${error.message}", error)
+                onError(error)
+            }
+        )
+    }
+
+    private fun parseCommentsResponse(response: String): List<Comment> {
+        val comments = JSONArray(response)
+        val commentsList = mutableListOf<Comment>()
+
+        for (i in 0 until comments.length()) {
+            val item = comments.getJSONObject(i)
+            val collectorId = if (item.has("collector")) {
+                item.getJSONObject("collector").getString("id")
+            } else {
+                "defaultCollectorId"
+            }
+
+            val comment = Comment(
+                description = item.getString("description"),
+                rating = item.getInt("rating"),
+                collectorId = collectorId
+            )
+            commentsList.add(comment)
+        }
+        return commentsList
+    }
+
 }

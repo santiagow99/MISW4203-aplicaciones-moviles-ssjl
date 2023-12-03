@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre del álbum"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/editTextCover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextName"
+            android:layout_marginTop="8dp"
+            android:hint="Enlace de la portada"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/editTextReleaseDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextCover"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="Fecha de lanzamiento"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/editTextDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextReleaseDate"
+            android:layout_marginTop="8dp"
+            android:hint="Descripción"
+            android:inputType="textMultiLine" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/genreTextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextDescription"
+            android:layout_marginTop="8dp"
+            app:hintEnabled="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Género" />
+
+            <Spinner
+                android:id="@+id/editTextGenre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/recordLabelTextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/genreTextInputLayout"
+            android:layout_marginTop="8dp"
+            app:hintEnabled="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sello discográfico"/>
+
+            <Spinner
+                android:id="@+id/editTextRecordLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recordLabelTextInputLayout"
+            android:layout_marginTop="16dp"
+            android:text="Guardar" />
+    </RelativeLayout>
+</layout>

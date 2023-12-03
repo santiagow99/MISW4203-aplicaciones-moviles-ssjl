@@ -1,10 +1,12 @@
 package com.example.vinyls_jetpack_application.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -36,6 +38,16 @@ class AlbumDetailFragment: Fragment()  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView = view.findViewById(R.id.tracksList)
         recyclerView.adapter = viewModelAdapter
+        val commentIcon = view.findViewById<ImageView>(R.id.commentIcon)
+
+
+        commentIcon.setOnClickListener {
+            val albumId = (activity as? AlbumDetailActivity)?.getAlbumId() ?: 0
+            val intent = Intent(requireContext(), CommentActivity::class.java)
+            intent.putExtra("ALBUM_ID", albumId)
+            startActivity(intent)
+        }
+
     }
 
     @Deprecated("Deprecated in Java")

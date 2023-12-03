@@ -2,11 +2,24 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_album_detail_fragment"
-    app:startDestination="@id/albumFragment">
+    app:startDestination="@id/login_collector_fragment">
+
+    <fragment
+        android:name="com.example.vinyls_jetpack_application.ui.LoginCollectorFragment"
+        android:id="@+id/login_collector_fragment"
+        android:label="">
+        <action
+            android:id="@+id/action_login_collector_fragment_to_albumFragment"
+            app:destination="@id/albumFragment" />
+    </fragment>
     <fragment
         android:id="@+id/albumFragment"
         android:name="com.example.vinyls_jetpack_application.ui.AlbumFragment"
         android:label="Álbumes" >
+
+        <action
+            android:id="@+id/action_albumFragment_to_addAlbumFragment"
+            app:destination="@id/addAlbumFragment" />
     </fragment>
 
     <fragment
@@ -23,9 +36,11 @@
         android:id="@+id/artistDetailFragment"
         android:name="com.example.vinyls_jetpack_application.ui.ArtistDetailFragment"
         android:label="Artista">
+
         <action
             android:id="@+id/action_artistDetailFragment_to_addAlbumArtistFragment"
             app:destination="@id/addAlbumArtistFragment" />
+
         <argument
             android:name="artistId"
             app:argType="integer" />
@@ -39,5 +54,14 @@
         <argument
             android:name="artistId"
             app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addAlbumFragment"
+        android:name="com.example.vinyls_jetpack_application.ui.AddAlbumFragment"
+        android:label="Agregar Álbum" >
+        <action
+            android:id="@+id/action_addAlbumFragment_to_albumListFragment"
+            app:destination="@id/albumFragment" />
     </fragment>
 </navigation>

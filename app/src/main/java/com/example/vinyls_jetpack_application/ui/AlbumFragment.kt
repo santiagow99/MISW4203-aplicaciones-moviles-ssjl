@@ -1,5 +1,6 @@
 package com.example.vinyls_jetpack_application.ui
 
+import AlbumViewModel
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,13 +11,14 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vinyls_jetpack_application.R
 import com.example.vinyls_jetpack_application.databinding.AlbumFragmentBinding
 import com.example.vinyls_jetpack_application.ui.adapters.AlbumsAdapter
-import com.example.vinyls_jetpack_application.viewmodels.AlbumViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class AlbumFragment : Fragment() {
     private var _binding: AlbumFragmentBinding? = null
@@ -25,6 +27,7 @@ class AlbumFragment : Fragment() {
     private lateinit var viewModel: AlbumViewModel
     private val viewModelAdapter: AlbumsAdapter by lazy { AlbumsAdapter() }
     private lateinit var searchEditText: EditText
+    private lateinit var addButton: FloatingActionButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,14 +50,18 @@ class AlbumFragment : Fragment() {
 
         searchEditText = view.findViewById(R.id.searchEditText)
         setupSearchListener()
+
+        addButton = view.findViewById(R.id.addAlbumFab)
+        addButton.setOnClickListener {
+            findNavController().navigate(R.id.action_albumFragment_to_addAlbumFragment)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val activity = requireActivity()
         activity.actionBar?.title = getString(R.string.title_albums)
-        viewModel =
-            ViewModelProvider(this, AlbumViewModel.Factory(activity.application))[AlbumViewModel::class.java]
+        viewModel = ViewModelProvider(this, AlbumViewModel.Factory(activity.application)).get(AlbumViewModel::class.java)
 
         viewModel.albums.observe(viewLifecycleOwner) { albums ->
             viewModelAdapter.albums = albums
