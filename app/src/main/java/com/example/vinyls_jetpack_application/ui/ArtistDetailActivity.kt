@@ -1,14 +1,20 @@
 package com.example.vinyls_jetpack_application.ui
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
+import com.example.vinyls_jetpack_application.R
 import com.example.vinyls_jetpack_application.databinding.ArtistItemBinding
+import com.example.vinyls_jetpack_application.viewmodels.AlbumDetailViewModel
+import com.example.vinyls_jetpack_application.viewmodels.ArtistDetailViewModel
 
 class ArtistDetailActivity : AppCompatActivity() {
 
     private var artistId: Int = 0
     private lateinit var navController: NavController
+    private var viewModel: ArtistDetailViewModel = ArtistDetailViewModel(application)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
